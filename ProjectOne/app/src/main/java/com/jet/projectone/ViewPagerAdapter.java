@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by 幻海流心 on 2018/1/2.
  */
@@ -38,12 +41,14 @@ public class ViewPagerAdapter extends PagerAdapter{
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+        views.put(position,null);
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View imageView = createImageView(position);
         container.addView(imageView);
+        views.put(position,imageView);
         return imageView;
     }
 
@@ -54,5 +59,10 @@ public class ViewPagerAdapter extends PagerAdapter{
         imageView.setImageResource(imgs[position]);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         return imageView;
+    }
+
+    private HashMap<Integer,View> views = new HashMap<>();
+    public <T extends View> T getPage(int position){
+        return (T) views.get(position);
     }
 }

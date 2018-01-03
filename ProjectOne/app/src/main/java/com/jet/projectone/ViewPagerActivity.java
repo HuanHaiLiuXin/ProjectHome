@@ -1,40 +1,30 @@
 package com.jet.projectone;
 
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class ViewPagerActivity extends AppCompatActivity {
-    private ViewPager vp;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN|WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_view_pager);
-        getSupportActionBar().hide();
-        initView();
+        setContentView(R.layout.activity_view_pager2);
     }
 
-    private void initView() {
-        vp = findViewById(R.id.vp);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(ViewPagerActivity.this,new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3,R.mipmap.img4,R.mipmap.img5,R.mipmap.img6});
-        vp.setAdapter(adapter);
-        vp.setPageTransformer(false,transformers[transformIndex]);
+    private void jump(Class clazz){
+        startActivity(new Intent(ViewPagerActivity.this,clazz));
+    }
+    public void goTransformer(View view) {
+        jump(ViewPagerTransformerActivity.class);
     }
 
-    private ViewPager.PageTransformer[] transformers = new ViewPager.PageTransformer[]{
-            new RotateTransformer(),
-            new FlipTransformer()
-    };
-    private int transformIndex = 0;
-    public void toggleTransform(View view) {
-        transformIndex = (++transformIndex)%2;
-        vp.setPageTransformer(false,transformers[transformIndex]);
+    public void goAdapter(View view) {
+        jump(ViewPagerAdapterActivity.class);
+    }
+
+    public void goBackground(View view) {
+        jump(ViewPagerBackgroundActivity.class);
     }
 }
