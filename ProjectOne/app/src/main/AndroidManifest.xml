@@ -30,7 +30,8 @@
             <!-- <action android:name="cat.ereza.customactivityoncrash.ERROR" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".ViewPagerBackgroundActivity"></activity>
+        <activity android:name=".ViewPagerBackgroundActivity" />
+        <activity android:name=".LoopViewPagerActivity"></activity>
     </application>
 
 </manifest>

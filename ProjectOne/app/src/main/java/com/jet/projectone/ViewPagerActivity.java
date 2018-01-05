@@ -27,4 +27,8 @@ public class ViewPagerActivity extends AppCompatActivity {
     public void goBackground(View view) {
         jump(ViewPagerBackgroundActivity.class);
     }
+
+    public void goLoop(View view) {
+        jump(LoopViewPagerActivity.class);
+    }
 }

@@ -30,5 +30,12 @@
             android:text="背景色渐变"
             android:textAllCaps="false"
             />
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goLoop"
+            android:text="无限循环"
+            android:textAllCaps="false"
+            />
     </LinearLayout>
 </ScrollView>
