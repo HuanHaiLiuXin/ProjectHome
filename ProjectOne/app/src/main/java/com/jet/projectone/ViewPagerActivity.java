@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.tmall.ultraviewpager.sample.UPVDemoActivity;
+
 public class ViewPagerActivity extends AppCompatActivity {
 
     @Override
@@ -30,5 +32,17 @@ public class ViewPagerActivity extends AppCompatActivity {
 
     public void goLoop(View view) {
         jump(LoopViewPagerActivity.class);
+    }
+
+    public void goVertical(View view) {
+        jump(VerticalViewPagerOriActivity.class);
+    }
+
+    public void goCustomViewPager(View view) {
+        jump(CollViewPagerActivity.class);
+    }
+
+    public void goAlibabaVP(View view) {
+        jump(UPVDemoActivity.class);
     }
 }

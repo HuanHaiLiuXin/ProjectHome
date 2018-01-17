@@ -14,9 +14,10 @@ public class RotateTransformer implements ViewPager.PageTransformer {
     public void transformPage(View page, float position) {
         page.setCameraDistance(20000F);
         if(position < -1){
-            page.setPivotX(page.getWidth());
+            //不注掉,在LoopViewPager里面使用会出现显示异常
+            /*page.setPivotX(page.getWidth());
             page.setPivotY(page.getHeight()/2);
-            page.setRotationY(-MAX_ROTATE);
+            page.setRotationY(-MAX_ROTATE);*/
         }else if(position <= 0){
             page.setPivotX(page.getWidth());
             page.setPivotY(page.getHeight()/2);
@@ -26,9 +27,10 @@ public class RotateTransformer implements ViewPager.PageTransformer {
             page.setPivotY(page.getHeight()/2);
             page.setRotationY(MAX_ROTATE * position);
         }else {
-            page.setPivotX(0F);
+            //不注掉,在LoopViewPager里面使用会出现显示异常
+            /*page.setPivotX(0F);
             page.setPivotY(page.getHeight()/2);
-            page.setRotationY(MAX_ROTATE);
+            page.setRotationY(MAX_ROTATE);*/
         }
     }
 }

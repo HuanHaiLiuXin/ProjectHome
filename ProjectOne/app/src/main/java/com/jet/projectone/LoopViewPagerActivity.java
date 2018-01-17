@@ -41,6 +41,7 @@ public class LoopViewPagerActivity extends AppCompatActivity {
         items.add(createImageView(R.mipmap.img4));
         MyAdapter adapter = new MyAdapter(items);
         vp.setAdapter(adapter);
+        vp.setPageTransformer(false,new RotateTransformer());
     }
     class MyAdapter extends PagerAdapter{
         private List<View> views;

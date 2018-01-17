@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+自定义属性,属性名称后缀拷贝自UltraViewPager(https://github.com/alibaba/UltraViewPager)
+-->
+<resources>
+    <declare-styleable name="CoolViewPager">
+        <attr name="ivp_autoscroll" format="integer" />
+        <attr name="ivp_infiniteloop" format="boolean" />
+        <attr name="ivp_ratio" format="float" />
+        <attr name="ivp_scrollmode" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="ivp_disablescroll" format="enum">
+            <enum name="none" value="0" />
+            <enum name="backward" value="1" />
+            <enum name="forward" value="2" />
+        </attr>
+        <attr name="ivp_multiscreen" format="boolean" />
+        <attr name="ivp_automeasure" format="boolean" />
+        <attr name="ivp_itemratio" format="float" />
+    </declare-styleable>
+</resources>

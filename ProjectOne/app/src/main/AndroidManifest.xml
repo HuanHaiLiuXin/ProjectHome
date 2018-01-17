@@ -31,7 +31,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ViewPagerBackgroundActivity" />
-        <activity android:name=".LoopViewPagerActivity"></activity>
+        <activity android:name=".LoopViewPagerActivity" />
+        <activity android:name=".VerticalViewPagerOriActivity" />
+        <activity android:name="com.tmall.ultraviewpager.sample.UPVDemoActivity" />
+        <activity android:name="com.tmall.ultraviewpager.sample.PagerActivity" />
+        <activity android:name=".CollViewPagerActivity"></activity>
     </application>
 
 </manifest>
