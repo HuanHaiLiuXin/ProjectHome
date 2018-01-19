@@ -1,5 +1,8 @@
 package com.huanhailiuxin.coolviewpager;
 
+import android.support.annotation.ColorInt;
+import android.widget.EdgeEffect;
+
 /**
  * 作者:幻海流心
  * GitHub:https://github.com/HuanHaiLiuXin
@@ -10,5 +13,24 @@ package com.huanhailiuxin.coolviewpager;
  */
 
 interface ICoolViewPagerFeature {
+    /**
+     * 设置滑动方向
+     *
+     * @param scrollMode
+     */
     void setScrollMode(CoolViewPager.ScrollMode scrollMode);
+
+    /**
+     * 设置EdgeEffect的颜色
+     *
+     * @param color
+     */
+    void setEdgeEffectColor(@ColorInt int color);
+
+    /**
+     * 设置是否绘制EdgeEffect
+     *
+     * @param drawEdgeEffect
+     */
+    void setDrawEdgeEffect(boolean drawEdgeEffect);
 }

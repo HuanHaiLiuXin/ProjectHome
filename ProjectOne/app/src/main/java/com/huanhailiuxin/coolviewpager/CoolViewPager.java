@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.annotation.CallSuper;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -198,6 +200,9 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
 
     private EdgeEffect mLeftEdge;
     private EdgeEffect mRightEdge;
+    //添加顶部及底部的边缘效果
+    private EdgeEffect mTopEdge;
+    private EdgeEffect mBottomEdge;
 
     private boolean mFirstLayout = true;
     private boolean mNeedCalculatePageOffsets = false;
@@ -361,8 +366,8 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
 
     public CoolViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initAttr(context,attrs);
         initViewPager();
+        initAttr(context,attrs);
     }
 
     /**
@@ -387,7 +392,29 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     @Override
     public void setScrollMode(ScrollMode scrollMode) {
         this.mScrollMode = scrollMode;
+        if(this.mScrollMode == ScrollMode.HORIZONTAL){
+            this.mPageTransformer = null;
+        }else{
+            setPageTransformer(false,new DefaultTransformer());
+        }
     }
+    private boolean mDrawEdgeEffect = true;
+    private @ColorInt int mEdgeEffectColor = -Integer.MAX_VALUE;
+
+    @Override
+    public void setDrawEdgeEffect(boolean drawEdgeEffect) {
+        this.mDrawEdgeEffect = drawEdgeEffect;
+    }
+
+    @Override
+    public void setEdgeEffectColor(@ColorInt int color) {
+        this.mEdgeEffectColor = color;
+        ReflectionUtils.invoke(mLeftEdge,"setColor",new Class[]{int.class},new Object[]{color});
+        ReflectionUtils.invoke(mTopEdge,"setColor",new Class[]{int.class},new Object[]{color});
+        ReflectionUtils.invoke(mRightEdge,"setColor",new Class[]{int.class},new Object[]{color});
+        ReflectionUtils.invoke(mBottomEdge,"setColor",new Class[]{int.class},new Object[]{color});
+    }
+
     /**
      * 初始化自定义属性
      * @param context
@@ -396,11 +423,16 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     private void initAttr(@NonNull Context context, @Nullable AttributeSet attrs) {
         if(attrs != null){
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CoolViewPager);
-            setScrollMode(ScrollMode.getScrollMode(ta.getInt(R.styleable.CoolViewPager_ivp_scrollmode, 0)));
+            setScrollMode(ScrollMode.getScrollMode(ta.getInt(R.styleable.CoolViewPager_cvp_scrollmode, 0)));
+            setDrawEdgeEffect(ta.getBoolean(R.styleable.CoolViewPager_cvp_drawedgeeffect,mDrawEdgeEffect));
+            mEdgeEffectColor = ta.getColor(R.styleable.CoolViewPager_cvp_edgeeffectcolor,mEdgeEffectColor);
             ta.recycle();
         }
         if(mScrollMode == ScrollMode.VERTICAL){
             setPageTransformer(false,new DefaultTransformer());
+        }
+        if(mDrawEdgeEffect && mEdgeEffectColor != -Integer.MAX_VALUE){
+            setEdgeEffectColor(mEdgeEffectColor);
         }
     }
 
@@ -418,6 +450,9 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
         mLeftEdge = new EdgeEffect(context);
         mRightEdge = new EdgeEffect(context);
+        //添加顶部及底部的边缘效果
+        mTopEdge = new EdgeEffect(context);
+        mBottomEdge = new EdgeEffect(context);
 
         mFlingDistance = (int) (MIN_DISTANCE_FOR_FLING * density);
         mCloseEnough = (int) (CLOSE_ENOUGH * density);
@@ -2361,7 +2396,13 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         endDrag();
         mLeftEdge.onRelease();
         mRightEdge.onRelease();
-        needsInvalidate = mLeftEdge.isFinished() || mRightEdge.isFinished();
+        mTopEdge.onRelease();
+        mBottomEdge.onRelease();
+        if(mScrollMode == ScrollMode.VERTICAL){
+            needsInvalidate = mTopEdge.isFinished() || mBottomEdge.isFinished();
+        }else{
+            needsInvalidate = mLeftEdge.isFinished() || mRightEdge.isFinished();
+        }
         return needsInvalidate;
     }
 
@@ -2401,14 +2442,26 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         if (scrollX < leftBound) {
             if (leftAbsolute) {
                 float over = leftBound - scrollX;
-                mLeftEdge.onPull(Math.abs(over) / width);
+                if(mScrollMode == ScrollMode.VERTICAL){
+                    mTopEdge.onPull(Math.abs(over) / width);
+//                    Log.e("Jet","mTopEdge.onPull");
+                }else{
+                    mLeftEdge.onPull(Math.abs(over) / width);
+//                    Log.e("Jet","mLeftEdge.onPull");
+                }
                 needsInvalidate = true;
             }
             scrollX = leftBound;
         } else if (scrollX > rightBound) {
             if (rightAbsolute) {
                 float over = scrollX - rightBound;
-                mRightEdge.onPull(Math.abs(over) / width);
+                if(mScrollMode == ScrollMode.VERTICAL){
+                    mBottomEdge.onPull(Math.abs(over) / width);
+//                    Log.e("Jet","mBottomEdge.onPull");
+                }else{
+                    mRightEdge.onPull(Math.abs(over) / width);
+//                    Log.e("Jet","mRightEdge.onPull");
+                }
                 needsInvalidate = true;
             }
             scrollX = rightBound;
@@ -2496,31 +2549,61 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         if (overScrollMode == View.OVER_SCROLL_ALWAYS
                 || (overScrollMode == View.OVER_SCROLL_IF_CONTENT_SCROLLS
                 && mAdapter != null && mAdapter.getCount() > 1)) {
-            if (!mLeftEdge.isFinished()) {
-                final int restoreCount = canvas.save();
-                final int height = getHeight() - getPaddingTop() - getPaddingBottom();
-                final int width = getWidth();
-
-                canvas.rotate(270);
-                canvas.translate(-height + getPaddingTop(), mFirstOffset * width);
-                mLeftEdge.setSize(height, width);
-                needsInvalidate |= mLeftEdge.draw(canvas);
-                canvas.restoreToCount(restoreCount);
-            }
-            if (!mRightEdge.isFinished()) {
-                final int restoreCount = canvas.save();
-                final int width = getWidth();
-                final int height = getHeight() - getPaddingTop() - getPaddingBottom();
-
-                canvas.rotate(90);
-                canvas.translate(-getPaddingTop(), -(mLastOffset + 1) * width);
-                mRightEdge.setSize(height, width);
-                needsInvalidate |= mRightEdge.draw(canvas);
-                canvas.restoreToCount(restoreCount);
+            if(mScrollMode == ScrollMode.VERTICAL){
+                if (!mTopEdge.isFinished()) {
+                    int restoreCount = canvas.save();
+                    int width = getWidth();
+                    int height = getHeight();
+                    if(getScrollX() > 0){
+                        canvas.translate(getScrollX(),0);
+                    }
+                    mTopEdge.setSize(width, height);
+                    needsInvalidate |= mTopEdge.draw(canvas);
+                    canvas.restoreToCount(restoreCount);
+                }
+                if (!mBottomEdge.isFinished()) {
+                    int restoreCount = canvas.save();
+                    int width = getWidth();
+                    int height = getHeight();
+                    if(getScrollX() > 0){
+                        canvas.translate(getScrollX(),0);
+                    }
+                    canvas.rotate(180);
+                    canvas.translate(-width,-height);
+                    mBottomEdge.setSize(width, height);
+                    needsInvalidate |= mBottomEdge.draw(canvas);
+                    canvas.restoreToCount(restoreCount);
+                }
+            }else{
+                if (!mLeftEdge.isFinished()) {
+                    final int restoreCount = canvas.save();
+                    final int height = getHeight() - getPaddingTop() - getPaddingBottom();
+                    final int width = getWidth();
+                    canvas.rotate(270);
+                    canvas.translate(-height + getPaddingTop(), mFirstOffset * width);
+                    mLeftEdge.setSize(height, width);
+                    needsInvalidate |= mLeftEdge.draw(canvas);
+                    canvas.restoreToCount(restoreCount);
+                }
+                if (!mRightEdge.isFinished()) {
+                    final int restoreCount = canvas.save();
+                    final int width = getWidth();
+                    final int height = getHeight() - getPaddingTop() - getPaddingBottom();
+                    canvas.rotate(90);
+                    canvas.translate(-getPaddingTop(), -(mLastOffset + 1) * width);
+                    mRightEdge.setSize(height, width);
+                    needsInvalidate |= mRightEdge.draw(canvas);
+                    canvas.restoreToCount(restoreCount);
+                }
             }
         } else {
-            mLeftEdge.finish();
-            mRightEdge.finish();
+            if(mScrollMode == ScrollMode.VERTICAL){
+                mTopEdge.finish();
+                mBottomEdge.finish();
+            }else{
+                mLeftEdge.finish();
+                mRightEdge.finish();
+            }
         }
 
         if (needsInvalidate) {
