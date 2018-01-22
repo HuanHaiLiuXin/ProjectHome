@@ -65,24 +65,24 @@ public class UltraPagerAdapter extends PagerAdapter {
         linearLayout.setId(R.id.item_id);
         switch (position) {
             case 0:
-//                linearLayout.setBackgroundColor(Color.parseColor("#2196F3"));
-                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                linearLayout.setBackgroundColor(Color.parseColor("#2196F3"));
+//                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 break;
             case 1:
-//                linearLayout.setBackgroundColor(Color.parseColor("#673AB7"));
-                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                linearLayout.setBackgroundColor(Color.parseColor("#673AB7"));
+//                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 break;
             case 2:
-//                linearLayout.setBackgroundColor(Color.parseColor("#009688"));
-                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                linearLayout.setBackgroundColor(Color.parseColor("#009688"));
+//                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 break;
             case 3:
-//                linearLayout.setBackgroundColor(Color.parseColor("#607D8B"));
-                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                linearLayout.setBackgroundColor(Color.parseColor("#607D8B"));
+//                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 break;
             case 4:
-//                linearLayout.setBackgroundColor(Color.parseColor("#F44336"));
-                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                linearLayout.setBackgroundColor(Color.parseColor("#F44336"));
+//                linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 break;
         }
         container.addView(linearLayout);

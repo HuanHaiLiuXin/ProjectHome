@@ -35,7 +35,8 @@
         <activity android:name=".VerticalViewPagerOriActivity" />
         <activity android:name="com.tmall.ultraviewpager.sample.UPVDemoActivity" />
         <activity android:name="com.tmall.ultraviewpager.sample.PagerActivity" />
-        <activity android:name=".CollViewPagerActivity"></activity>
+        <activity android:name=".CollViewPagerActivity" />
+        <activity android:name=".VpClipChildrenActivity"></activity>
     </application>
 
 </manifest>

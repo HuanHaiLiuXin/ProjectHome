@@ -27,7 +27,7 @@ public class CollViewPagerActivity extends AppCompatActivity {
     private void initView() {
         vp = findViewById(R.id.vp);
         vp1 = findViewById(R.id.vp1);
-        adapter = new ViewPagerAdapter(CollViewPagerActivity.this,new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3});
+        adapter = new ViewPagerAdapter(CollViewPagerActivity.this,new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3,R.mipmap.img4,R.mipmap.img5,R.mipmap.img6});
         vp1.setAdapter(adapter);
         setAdapter();
     }

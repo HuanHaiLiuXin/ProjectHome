@@ -1,12 +1,5 @@
 package com.huanhailiuxin.coolviewpager;
 
-/**
- * 作者:幻海流心
- * GitHub:https://github.com/HuanHaiLiuXin
- * 邮箱:wall0920@163.com
- * 2018/1/16 17:19
- */
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -74,6 +67,8 @@ import java.util.List;
  *  水平、垂直方向滑动
  *  无限循环
  *  等
+ *
+ * 一屏展示多页:{@link PagerAdapter#getPageWidth(int)}
  */
 public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     private static final String TAG = "ViewPager";

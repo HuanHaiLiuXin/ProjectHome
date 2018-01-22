@@ -65,4 +65,16 @@ public class ViewPagerAdapter extends PagerAdapter{
     public <T extends View> T getPage(int position){
         return (T) views.get(position);
     }
+
+    /**
+     * 重写{@link PagerAdapter#getPageWidth(int)}可以实现一屏展示多页
+     *
+     * 通过重写PagerAdapter的getPageWidth方法，此方法返回的是ViewPager中每一页占实际ViewPager的宽度百分比，默认是1，即100%：
+     * @param position
+     * @return
+     */
+    @Override
+    public float getPageWidth(int position) {
+        return super.getPageWidth(position);
+    }
 }

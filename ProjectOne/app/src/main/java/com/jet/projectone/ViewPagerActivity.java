@@ -50,4 +50,8 @@ public class ViewPagerActivity extends AppCompatActivity {
     public void goAlibabaVP(View view) {
         jump(UPVDemoActivity.class);
     }
+
+    public void goClipChildren(View view) {
+        jump(VpClipChildrenActivity.class);
+    }
 }
