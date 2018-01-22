@@ -5,9 +5,9 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -43,7 +43,8 @@ import android.view.animation.Interpolator;
 import android.widget.EdgeEffect;
 import android.widget.Scroller;
 
-import com.huanhailiuxin.coolviewpager.transformer.DefaultTransformer;
+import com.huanhailiuxin.coolviewpager.transformer.CycleHorizontalTransformer;
+import com.huanhailiuxin.coolviewpager.transformer.DefaultVerticalTransformer;
 import com.jet.projectone.R;
 import com.jet.projectone.ReflectionUtils;
 
@@ -388,9 +389,28 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     public void setScrollMode(ScrollMode scrollMode) {
         this.mScrollMode = scrollMode;
         if(this.mScrollMode == ScrollMode.HORIZONTAL){
-            this.mPageTransformer = null;
+            if(mCycleTransformer){
+                if(getParent() == null){
+                    this.mPageTransformer = null;
+                }else{
+                    setClipChildren(false);
+                    ((ViewGroup)getParent()).setClipChildren(false);
+                    setPageTransformer(false,new CycleHorizontalTransformer());
+                    addOnPageChangeListener(mInfinityCyclePageChangeListener);
+                }
+            }else{
+                this.mPageTransformer = null;
+                this.mOnPageChangeListeners = new ArrayList<>();
+                this.mOnPageChangeListener = null;
+            }
         }else{
-            setPageTransformer(false,new DefaultTransformer());
+            if(mCycleTransformer){
+
+            }else{
+                setPageTransformer(false,new DefaultVerticalTransformer());
+                this.mOnPageChangeListeners = new ArrayList<>();
+                this.mOnPageChangeListener = null;
+            }
         }
     }
     private boolean mDrawEdgeEffect = true;
@@ -409,6 +429,12 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         ReflectionUtils.invoke(mRightEdge,"setColor",new Class[]{int.class},new Object[]{color});
         ReflectionUtils.invoke(mBottomEdge,"setColor",new Class[]{int.class},new Object[]{color});
     }
+    private boolean mCycleTransformer = false;
+    @Override
+    public void setCycleTransformer(boolean cycleTransformer) {
+        this.mCycleTransformer = cycleTransformer;
+        setScrollMode(mScrollMode);
+    }
 
     /**
      * 初始化自定义属性
@@ -418,14 +444,13 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     private void initAttr(@NonNull Context context, @Nullable AttributeSet attrs) {
         if(attrs != null){
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CoolViewPager);
-            setScrollMode(ScrollMode.getScrollMode(ta.getInt(R.styleable.CoolViewPager_cvp_scrollmode, 0)));
-            setDrawEdgeEffect(ta.getBoolean(R.styleable.CoolViewPager_cvp_drawedgeeffect,mDrawEdgeEffect));
+            mScrollMode = ScrollMode.getScrollMode(ta.getInt(R.styleable.CoolViewPager_cvp_scrollmode, 0));
+            mDrawEdgeEffect = ta.getBoolean(R.styleable.CoolViewPager_cvp_drawedgeeffect,mDrawEdgeEffect);
             mEdgeEffectColor = ta.getColor(R.styleable.CoolViewPager_cvp_edgeeffectcolor,mEdgeEffectColor);
+            mCycleTransformer = ta.getBoolean(R.styleable.CoolViewPager_cvp_cycletransformer,mCycleTransformer);
             ta.recycle();
         }
-        if(mScrollMode == ScrollMode.VERTICAL){
-            setPageTransformer(false,new DefaultTransformer());
-        }
+        setScrollMode(mScrollMode);
         if(mDrawEdgeEffect && mEdgeEffectColor != -Integer.MAX_VALUE){
             setEdgeEffectColor(mEdgeEffectColor);
         }
@@ -3309,4 +3334,105 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
             return llp.position - rlp.position;
         }
     }
+
+    //从InfiniteCycleViewPager拷贝而来
+    // Flag for setCurrentItem to zero of half the virtual count when set adapter
+    private boolean mIsAdapterInitialPosition;
+    // Flag for data set changed callback to invalidateTransformer()
+    private boolean mIsDataSetChanged;
+    // Detect is ViewPager state
+    private int mState;
+    // When item count equals to 3 we need stack count for know is item on position -2 or 2 is placed
+    private int mStackCount;
+    // Inner and outer state of scrolling
+    private PageScrolledState mInnerPageScrolledState = PageScrolledState.IDLE;
+    private PageScrolledState mOuterPageScrolledState = PageScrolledState.IDLE;
+    // Flag for invalidate transformer side scroll when use setCurrentItem() method
+    private boolean mIsInitialItem;
+    // Page scrolled info positions
+    private float mPageScrolledPositionOffset;
+    private float mPageScrolledPosition;
+    // Detect if was minus one position of transform page for correct handle of page bring to front
+    private boolean mWasMinusOne;
+    // Detect if was plus one position of transform page for correct handle of page bring to front
+    private boolean mWasPlusOne;
+    // Flag to know is left page need bring to front for correct scrolling present
+    private boolean mIsLeftPageBringToFront;
+    // Flag to know is right page need bring to front for correct scrolling present
+    private boolean mIsRightPageBringToFront;
+
+    // Detect is we are idle in pageScrolled() callback, not in scrollStateChanged()
+    private boolean isSmallPositionOffset(float positionOffset) {
+        return Math.abs(positionOffset) < 0.0001F;
+    }
+    // Disable hardware layer when idle
+    private void disableHardwareLayers() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) return;
+        for (int i = 0; i < getChildCount(); i++) {
+            final View child = getChildAt(i);
+            if (child.getLayerType() != View.LAYER_TYPE_NONE)
+                child.setLayerType(View.LAYER_TYPE_NONE, null);
+        }
+    }
+
+    // OnPageChangeListener which is retrieve info about scroll direction and scroll state
+    protected final OnPageChangeListener mInfinityCyclePageChangeListener = new CoolViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageScrolled(
+                final int position, final float positionOffset, final int positionOffsetPixels
+        ) {
+            // Reset stack count on each scroll offset
+            mStackCount = 0;
+
+            // We need to rewrite states when is dragging and when setCurrentItem() from idle
+            if (mState != CoolViewPager.SCROLL_STATE_SETTLING || mIsInitialItem) {
+                // Detect first state from idle
+                if (mOuterPageScrolledState == PageScrolledState.IDLE && positionOffset > 0) {
+                    mPageScrolledPosition = getCurrentItem();
+                    mOuterPageScrolledState = position == mPageScrolledPosition ?
+                            PageScrolledState.GOING_LEFT : PageScrolledState.GOING_RIGHT;
+                }
+
+                // Rewrite scrolled state when switch to another edge
+                final boolean goingRight = position == mPageScrolledPosition;
+                if (mOuterPageScrolledState == PageScrolledState.GOING_LEFT && !goingRight)
+                    mOuterPageScrolledState = PageScrolledState.GOING_RIGHT;
+                else if (mOuterPageScrolledState == PageScrolledState.GOING_RIGHT && goingRight)
+                    mOuterPageScrolledState = PageScrolledState.GOING_LEFT;
+            }
+
+            // Rewrite inner dynamic scrolled state
+            if (mPageScrolledPositionOffset <= positionOffset)
+                mInnerPageScrolledState = PageScrolledState.GOING_LEFT;
+            else mInnerPageScrolledState = PageScrolledState.GOING_RIGHT;
+            mPageScrolledPositionOffset = positionOffset;
+
+            // Detect if is idle in pageScrolled() callback to transform pages last time
+            if ((isSmallPositionOffset(positionOffset) ? 0 : positionOffset) == 0) {
+                // Reset states and flags on idle
+                disableHardwareLayers();
+
+                mInnerPageScrolledState = PageScrolledState.IDLE;
+                mOuterPageScrolledState = PageScrolledState.IDLE;
+
+                mWasMinusOne = false;
+                mWasPlusOne = false;
+                mIsLeftPageBringToFront = false;
+                mIsRightPageBringToFront = false;
+
+                mIsInitialItem = false;
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(final int state) {
+            mState = state;
+        }
+    };
+
+    // Page scrolled state
+    private enum PageScrolledState {
+        IDLE, GOING_LEFT, GOING_RIGHT
+    }
+    //从InfiniteCycleViewPager拷贝而来
 }

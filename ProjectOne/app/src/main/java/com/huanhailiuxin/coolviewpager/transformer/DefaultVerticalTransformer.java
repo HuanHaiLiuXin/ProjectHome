@@ -12,7 +12,7 @@ import com.huanhailiuxin.coolviewpager.CoolViewPager;
  * 2018/1/16 11:31
  */
 
-public class DefaultTransformer implements CoolViewPager.PageTransformer {
+public class DefaultVerticalTransformer implements CoolViewPager.PageTransformer {
     @Override
     public void transformPage(@NonNull View page, float position) {
         page.setTranslationX(page.getWidth() * -position);

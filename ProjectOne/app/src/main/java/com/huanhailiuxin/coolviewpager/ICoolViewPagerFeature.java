@@ -33,4 +33,11 @@ interface ICoolViewPagerFeature {
      * @param drawEdgeEffect
      */
     void setDrawEdgeEffect(boolean drawEdgeEffect);
+
+    /**
+     * 设置PageTransformer效果是否是'圆形滚动'
+     *
+     * @param cycleTransformer
+     */
+    void setCycleTransformer(boolean cycleTransformer);
 }

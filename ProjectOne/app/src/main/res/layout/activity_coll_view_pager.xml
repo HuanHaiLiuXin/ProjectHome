@@ -17,8 +17,9 @@
         android:id="@+id/vp"
         android:layout_width="800px"
         android:layout_height="600px"
-        app:cvp_scrollmode="vertical"
+        app:cvp_scrollmode="horizontal"
         app:cvp_edgeeffectcolor="#81CC86"
+        app:cvp_cycletransformer="true"
         />
 
     <LinearLayout
