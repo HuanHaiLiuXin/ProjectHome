@@ -426,7 +426,12 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             this.mInfiniteLoop = infiniteLoop;
             if(this.mAdapter != null){
                 if(this.mInfiniteLoop && !(this.mAdapter instanceof LoopPagerAdapterWrapper)){
-                    setAdapter(this.mAdapter);
+                    //对于原生PagerAdapter实例,如果Item数量<=1,则不应该让其循环滚动
+                    if(this.mAdapter.getCount() > 1){
+                        setAdapter(this.mAdapter);
+                    }else{
+                        this.mInfiniteLoop = false;
+                    }
                 }else if(!this.mInfiniteLoop && this.mAdapter instanceof LoopPagerAdapterWrapper){
                     setAdapter(((LoopPagerAdapterWrapper) this.mAdapter).getRealAdapter());
                 }
@@ -585,10 +590,12 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         }
 
         final PagerAdapter oldAdapter = mAdapter;
-        if (mInfiniteLoop){
+        //对于原生PagerAdapter实例,如果Item数量<=1,则不应该让其循环滚动
+        if (mInfiniteLoop && adapter.getCount() > 1){
             mAdapter = new LoopPagerAdapterWrapper(adapter);
             setOnPageChangeListener(onPageChangeListener);
         }else{
+            mInfiniteLoop = false;
             mAdapter = adapter;
             setOnPageChangeListener(null);
         }
