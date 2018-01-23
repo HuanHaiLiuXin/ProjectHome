@@ -65,36 +65,24 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        /*int realPosition = toRealPosition(position);
-        mAdapter.destroyItem(container,realPosition,object);*/
+        int realPosition = toRealPosition(position);
+        mAdapter.destroyItem(container,realPosition,object);
     }
 
-    /*
-     * Delegate rest of methods directly to the inner adapter.
+    /**
+     * 解决原生PagerAdapter实例调用{@link PagerAdapter#notifyDataSetChanged()},ViewPager界面不刷新的问题
+     * 详见:http://www.07net01.com/program/642011.html
+     *
+     * @param object
+     * @return
      */
-    /*
     @Override
-    public void finishUpdate(ViewGroup container) {
-        mAdapter.finishUpdate(container);
+    public int getItemPosition(@NonNull Object object) {
+        int mChildCount = getCount();
+        if(mChildCount > 0){
+            mChildCount --;
+            return POSITION_NONE;
+        }
+        return super.getItemPosition(object);
     }
-    @Override
-    public void restoreState(Parcelable bundle, ClassLoader classLoader) {
-        mAdapter.restoreState(bundle, classLoader);
-    }
-    @Override
-    public Parcelable saveState() {
-        return mAdapter.saveState();
-    }
-    @Override
-    public void startUpdate(ViewGroup container) {
-        mAdapter.startUpdate(container);
-    }
-    @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        mAdapter.setPrimaryItem(container, position, object);
-    }
-    */
-    /*
-     * End delegation
-     */
 }
