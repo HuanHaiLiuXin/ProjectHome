@@ -2,6 +2,7 @@ package com.jet.projectone;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -16,54 +17,37 @@ import java.util.List;
  */
 
 public class ViewPagerAdapter extends PagerAdapter{
-    private Context context;
-    private int[] imgs;
-
-    public ViewPagerAdapter(Context mContext,int[] mImgs){
-        this.context = mContext;
-        this.imgs = mImgs;
+    private List<View> views;
+    public ViewPagerAdapter(List<View> items){
+        this.views = items;
     }
 
     @Override
     public int getCount() {
-        if(imgs == null || imgs.length <= 0){
-            return 0;
-        }else{
-            return imgs.length;
-        }
+        return views.size();
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
+    @NonNull
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        //必须要先判断,否则报错:java.lang.IllegalStateException: The specified child already has a parent
+        //ViewGroup的addView（）方法不能添加一个已存在父控件的视图,所以在执行前需要判断要添加的View实例是不是存在父控件.
+        //如果存在父控件,需要其父控件先将该View移除掉,再执行addView
+        if(views.get(position).getParent() != null){
+            ((ViewGroup)views.get(position).getParent()).removeView(views.get(position));
+        }
+        container.addView(views.get(position));
+        return views.get(position);
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
-        views.put(position,null);
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        View imageView = createImageView(position);
-        container.addView(imageView);
-        views.put(position,imageView);
-        return imageView;
-    }
-
-    private View createImageView(int position){
-        ImageView imageView = new ImageView(context);
-        ViewPager.LayoutParams params = new ViewPager.LayoutParams();
-        imageView.setLayoutParams(params);
-        imageView.setImageResource(imgs[position]);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        return imageView;
-    }
-
-    private HashMap<Integer,View> views = new HashMap<>();
-    public <T extends View> T getPage(int position){
-        return (T) views.get(position);
     }
 
     /**
@@ -76,5 +60,9 @@ public class ViewPagerAdapter extends PagerAdapter{
     @Override
     public float getPageWidth(int position) {
         return super.getPageWidth(position);
+    }
+
+    public <T extends View> T getPage(int position){
+        return (T) views.get(position);
     }
 }

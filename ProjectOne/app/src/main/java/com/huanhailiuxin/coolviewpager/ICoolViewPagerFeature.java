@@ -34,4 +34,11 @@ interface ICoolViewPagerFeature {
      * @param drawEdgeEffect
      */
     void setDrawEdgeEffect(boolean drawEdgeEffect);
+
+    /**
+     * 设置是否循环滚动
+     * @param infiniteLoop
+     */
+    void setInfiniteLoop(boolean infiniteLoop);
+
 }

@@ -18,7 +18,6 @@
         </attr>
         <attr name="cvp_drawedgeeffect" format="boolean"/>
         <attr name="cvp_edgeeffectcolor" format="color"/>
-        <attr name="cvp_cycletransformer" format="boolean"/>
         <attr name="cvp_multiscreen" format="boolean" />
         <attr name="cvp_automeasure" format="boolean" />
         <attr name="cvp_itemratio" format="float" />

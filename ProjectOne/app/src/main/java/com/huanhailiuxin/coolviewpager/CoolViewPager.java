@@ -7,7 +7,6 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -43,7 +42,7 @@ import android.view.animation.Interpolator;
 import android.widget.EdgeEffect;
 import android.widget.Scroller;
 
-import com.huanhailiuxin.coolviewpager.transformer.CycleHorizontalTransformer;
+import com.huanhailiuxin.coolviewpager.adapter.LoopPagerAdapterWrapper;
 import com.huanhailiuxin.coolviewpager.transformer.DefaultVerticalTransformer;
 import com.jet.projectone.R;
 import com.jet.projectone.ReflectionUtils;
@@ -63,15 +62,15 @@ import java.util.List;
  * GitHub:https://github.com/HuanHaiLiuXin
  * 邮箱:wall0920@163.com
  * 2018/1/17 12:08
- *
+ * <p>
  * 拷贝{@link android.support.v4.view.ViewPager},修改少量代码实现自定义动能,如:
- *  水平、垂直方向滑动
- *  无限循环
- *  等
- *
+ * 水平、垂直方向滑动
+ * 无限循环
+ * 等
+ * <p>
  * 一屏展示多页:{@link PagerAdapter#getPageWidth(int)}
  */
-public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
+public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     private static final String TAG = "ViewPager";
     private static final boolean DEBUG = false;
 
@@ -85,7 +84,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
 
     private static final int MIN_FLING_VELOCITY = 400; // dips
 
-    static final int[] LAYOUT_ATTRS = new int[] {
+    static final int[] LAYOUT_ATTRS = new int[]{
             android.R.attr.layout_gravity
     };
 
@@ -103,7 +102,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         float offset;
     }
 
-    private static final Comparator<CoolViewPager.ItemInfo> COMPARATOR = new Comparator<CoolViewPager.ItemInfo>(){
+    private static final Comparator<CoolViewPager.ItemInfo> COMPARATOR = new Comparator<CoolViewPager.ItemInfo>() {
         @Override
         public int compare(CoolViewPager.ItemInfo lhs, CoolViewPager.ItemInfo rhs) {
             return lhs.position - rhs.position;
@@ -254,9 +253,9 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
          * This method will be invoked when the current page is scrolled, either as part
          * of a programmatically initiated smooth scroll or a user initiated touch scroll.
          *
-         * @param position Position index of the first page currently being displayed.
-         *                 Page position+1 will be visible if positionOffset is nonzero.
-         * @param positionOffset Value from [0, 1) indicating the offset from the page at position.
+         * @param position             Position index of the first page currently being displayed.
+         *                             Page position+1 will be visible if positionOffset is nonzero.
+         * @param positionOffset       Value from [0, 1) indicating the offset from the page at position.
          * @param positionOffsetPixels Value in pixels indicating the offset from position.
          */
         void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
@@ -308,7 +307,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      * A PageTransformer is invoked whenever a visible/attached page is scrolled.
      * This offers an opportunity for the application to apply a custom transformation
      * to the page views using animation properties.
-     *
+     * <p>
      * <p>As property animation is only supported as of Android 3.0 and forward,
      * setting a PageTransformer on a ViewPager on earlier platform versions will
      * be ignored.</p>
@@ -317,7 +316,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         /**
          * Apply a property transformation to the given page.
          *
-         * @param page Apply the transformation to this page
+         * @param page     Apply the transformation to this page
          * @param position Position of page relative to the current front-and-center
          *                 position of the pager. 0 is front and center. 1 is one full
          *                 page position to the right, and -1 is one page position to the left.
@@ -343,10 +342,10 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     /**
      * Annotation which allows marking of views to be decoration views when added to a view
      * pager.
-     *
+     * <p>
      * <p>Views marked with this annotation can be added to the view pager with a layout resource.
      * An example being {@link PagerTitleStrip}.</p>
-     *
+     * <p>
      * <p>You can also control whether a view is a decor view but setting
      * {@link CoolViewPager.LayoutParams#isDecor} on the child's layout params.</p>
      */
@@ -357,13 +356,13 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     }
 
     public CoolViewPager(@NonNull Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public CoolViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initViewPager();
-        initAttr(context,attrs);
+        initAttr(context, attrs);
     }
 
     /**
@@ -372,9 +371,11 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     public enum ScrollMode {
         HORIZONTAL(0), VERTICAL(1);
         int id;
+
         ScrollMode(int id) {
             this.id = id;
         }
+
         static ScrollMode getScrollMode(int id) {
             for (ScrollMode scrollMode : values()) {
                 if (scrollMode.id == id)
@@ -385,36 +386,25 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     }
 
     private ScrollMode mScrollMode = ScrollMode.HORIZONTAL;
+
     @Override
     public void setScrollMode(ScrollMode scrollMode) {
         this.mScrollMode = scrollMode;
-        if(this.mScrollMode == ScrollMode.HORIZONTAL){
-            if(mCycleTransformer){
-                if(getParent() == null){
-                    this.mPageTransformer = null;
-                }else{
-                    setClipChildren(false);
-                    ((ViewGroup)getParent()).setClipChildren(false);
-                    setPageTransformer(false,new CycleHorizontalTransformer());
-                    addOnPageChangeListener(mInfinityCyclePageChangeListener);
-                }
-            }else{
-                this.mPageTransformer = null;
-                this.mOnPageChangeListeners = new ArrayList<>();
-                this.mOnPageChangeListener = null;
-            }
-        }else{
-            if(mCycleTransformer){
-
-            }else{
-                setPageTransformer(false,new DefaultVerticalTransformer());
-                this.mOnPageChangeListeners = new ArrayList<>();
-                this.mOnPageChangeListener = null;
-            }
+        if (this.mScrollMode == ScrollMode.HORIZONTAL) {
+            this.mPageTransformer = null;
+            this.mOnPageChangeListeners = new ArrayList<>();
+            this.mOnPageChangeListener = null;
+        } else {
+            setPageTransformer(false, new DefaultVerticalTransformer());
+            this.mOnPageChangeListeners = new ArrayList<>();
+            this.mOnPageChangeListener = null;
         }
     }
+
     private boolean mDrawEdgeEffect = true;
-    private @ColorInt int mEdgeEffectColor = -Integer.MAX_VALUE;
+    private @ColorInt
+    int mEdgeEffectColor = -Integer.MAX_VALUE;
+    private boolean mInfiniteLoop = false;
 
     @Override
     public void setDrawEdgeEffect(boolean drawEdgeEffect) {
@@ -424,34 +414,46 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     @Override
     public void setEdgeEffectColor(@ColorInt int color) {
         this.mEdgeEffectColor = color;
-        ReflectionUtils.invoke(mLeftEdge,"setColor",new Class[]{int.class},new Object[]{color});
-        ReflectionUtils.invoke(mTopEdge,"setColor",new Class[]{int.class},new Object[]{color});
-        ReflectionUtils.invoke(mRightEdge,"setColor",new Class[]{int.class},new Object[]{color});
-        ReflectionUtils.invoke(mBottomEdge,"setColor",new Class[]{int.class},new Object[]{color});
+        ReflectionUtils.invoke(mLeftEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+        ReflectionUtils.invoke(mTopEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+        ReflectionUtils.invoke(mRightEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+        ReflectionUtils.invoke(mBottomEdge, "setColor", new Class[]{int.class}, new Object[]{color});
     }
-    private boolean mCycleTransformer = false;
+
     @Override
-    public void setCycleTransformer(boolean cycleTransformer) {
-        this.mCycleTransformer = cycleTransformer;
-        setScrollMode(mScrollMode);
+    public void setInfiniteLoop(boolean infiniteLoop) {
+        if(this.mInfiniteLoop != infiniteLoop){
+            this.mInfiniteLoop = infiniteLoop;
+            if(this.mAdapter != null){
+                if(this.mInfiniteLoop && !(this.mAdapter instanceof LoopPagerAdapterWrapper)){
+                    setAdapter(this.mAdapter);
+                }else if(!this.mInfiniteLoop && this.mAdapter instanceof LoopPagerAdapterWrapper){
+                    setAdapter(((LoopPagerAdapterWrapper) this.mAdapter).getRealAdapter());
+                }
+            }
+        }
+    }
+    public boolean isInfiniteLoop(){
+        return this.mInfiniteLoop;
     }
 
     /**
      * 初始化自定义属性
+     *
      * @param context
      * @param attrs
      */
     private void initAttr(@NonNull Context context, @Nullable AttributeSet attrs) {
-        if(attrs != null){
+        if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CoolViewPager);
             mScrollMode = ScrollMode.getScrollMode(ta.getInt(R.styleable.CoolViewPager_cvp_scrollmode, 0));
-            mDrawEdgeEffect = ta.getBoolean(R.styleable.CoolViewPager_cvp_drawedgeeffect,mDrawEdgeEffect);
-            mEdgeEffectColor = ta.getColor(R.styleable.CoolViewPager_cvp_edgeeffectcolor,mEdgeEffectColor);
-            mCycleTransformer = ta.getBoolean(R.styleable.CoolViewPager_cvp_cycletransformer,mCycleTransformer);
+            mDrawEdgeEffect = ta.getBoolean(R.styleable.CoolViewPager_cvp_drawedgeeffect, mDrawEdgeEffect);
+            mEdgeEffectColor = ta.getColor(R.styleable.CoolViewPager_cvp_edgeeffectcolor, mEdgeEffectColor);
+            mInfiniteLoop = ta.getBoolean(R.styleable.CoolViewPager_cvp_infiniteloop,mInfiniteLoop);
             ta.recycle();
         }
         setScrollMode(mScrollMode);
-        if(mDrawEdgeEffect && mEdgeEffectColor != -Integer.MAX_VALUE){
+        if (mDrawEdgeEffect && mEdgeEffectColor != -Integer.MAX_VALUE) {
             setEdgeEffectColor(mEdgeEffectColor);
         }
     }
@@ -559,6 +561,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         dispatchOnScrollStateChanged(newState);
     }
 
+//    private LoopPagerAdapterWrapper mLoopPagerAdapter;
     /**
      * Set a PagerAdapter that will supply views for this pager as needed.
      *
@@ -568,7 +571,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         if (mAdapter != null) {
 //            mAdapter.setViewPagerObserver(null);
             //setViewPagerObserver不是public方法,package外不能调用,使用反射调用
-            ReflectionUtils.invoke(mAdapter,"setViewPagerObserver",new Class[]{DataSetObserver.class},new Object[]{null});
+            ReflectionUtils.invoke(mAdapter, "setViewPagerObserver", new Class[]{DataSetObserver.class}, new Object[]{null});
             mAdapter.startUpdate(this);
             for (int i = 0; i < mItems.size(); i++) {
                 final CoolViewPager.ItemInfo ii = mItems.get(i);
@@ -582,7 +585,13 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         }
 
         final PagerAdapter oldAdapter = mAdapter;
-        mAdapter = adapter;
+        if (mInfiniteLoop){
+            mAdapter = new LoopPagerAdapterWrapper(adapter);
+            setOnPageChangeListener(onPageChangeListener);
+        }else{
+            mAdapter = adapter;
+            setOnPageChangeListener(null);
+        }
         mExpectedAdapterCount = 0;
 
         if (mAdapter != null) {
@@ -590,7 +599,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                 mObserver = new CoolViewPager.PagerObserver();
             }
 //            mAdapter.setViewPagerObserver(mObserver);
-            ReflectionUtils.invoke(mAdapter,"setViewPagerObserver",new Class[]{DataSetObserver.class},new PagerObserver[]{mObserver});
+            ReflectionUtils.invoke(mAdapter, "setViewPagerObserver", new Class[]{DataSetObserver.class}, new PagerObserver[]{mObserver});
             mPopulatePending = false;
             final boolean wasFirstLayout = mFirstLayout;
             mFirstLayout = true;
@@ -614,6 +623,10 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                 mAdapterChangeListeners.get(i).onAdapterChanged(CoolViewPager.this, oldAdapter, adapter);
             }
         }
+        if (mInfiniteLoop){
+            int realItem = ((LoopPagerAdapterWrapper)mAdapter).toInnerPosition(0);
+            setCurrentItem(realItem,false);
+        }
     }
 
     private void removeNonDecorViews() {
@@ -634,7 +647,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      */
     @Nullable
     public PagerAdapter getAdapter() {
-        return mAdapter;
+        return mAdapter instanceof LoopPagerAdapterWrapper ? ((LoopPagerAdapterWrapper)mAdapter).getRealAdapter() : mAdapter;
     }
 
     /**
@@ -680,7 +693,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     /**
      * Set the currently selected page.
      *
-     * @param item Item index to select
+     * @param item         Item index to select
      * @param smoothScroll True to smoothly scroll to the new item, false to transition immediately
      */
     public void setCurrentItem(int item, boolean smoothScroll) {
@@ -765,7 +778,6 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      * scrolled. See {@link CoolViewPager.OnPageChangeListener}.
      *
      * @param listener Listener to set
-     *
      * @deprecated Use {@link #addOnPageChangeListener(CoolViewPager.OnPageChangeListener)}
      * and {@link #removeOnPageChangeListener(CoolViewPager.OnPageChangeListener)} instead.
      */
@@ -777,7 +789,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     /**
      * Add a listener that will be invoked whenever the page changes or is incrementally
      * scrolled. See {@link CoolViewPager.OnPageChangeListener}.
-     *
+     * <p>
      * <p>Components that add a listener should take care to remove it when finished.
      * Other components that take ownership of a view may call {@link #clearOnPageChangeListeners()}
      * to remove all attached listeners.</p>
@@ -816,18 +828,18 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      * Sets a {@link CoolViewPager.PageTransformer} that will be called for each attached page whenever
      * the scroll position is changed. This allows the application to apply custom property
      * transformations to each page, overriding the default sliding behavior.
-     *
+     * <p>
      * <p><em>Note:</em> By default, calling this method will cause contained pages to use
      * {@link View#LAYER_TYPE_HARDWARE}. This layer type allows custom alpha transformations,
      * but it will cause issues if any of your pages contain a {@link android.view.SurfaceView}
      * and you have not called {@link android.view.SurfaceView#setZOrderOnTop(boolean)} to put that
      * {@link android.view.SurfaceView} above your app content. To disable this behavior, call
-     * {@link #setPageTransformer(boolean, CoolViewPager.PageTransformer,int)} and pass
+     * {@link #setPageTransformer(boolean, CoolViewPager.PageTransformer, int)} and pass
      * {@link View#LAYER_TYPE_NONE} for {@code pageLayerType}.</p>
      *
      * @param reverseDrawingOrder true if the supplied PageTransformer requires page views
      *                            to be drawn from last to first instead of first to last.
-     * @param transformer PageTransformer that will modify each page's animation properties
+     * @param transformer         PageTransformer that will modify each page's animation properties
      */
     public void setPageTransformer(boolean reverseDrawingOrder,
                                    @Nullable CoolViewPager.PageTransformer transformer) {
@@ -841,11 +853,11 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      *
      * @param reverseDrawingOrder true if the supplied PageTransformer requires page views
      *                            to be drawn from last to first instead of first to last.
-     * @param transformer PageTransformer that will modify each page's animation properties
-     * @param pageLayerType View layer type that should be used for ViewPager pages. It should be
-     *                      either {@link View#LAYER_TYPE_HARDWARE},
-     *                      {@link View#LAYER_TYPE_SOFTWARE}, or
-     *                      {@link View#LAYER_TYPE_NONE}.
+     * @param transformer         PageTransformer that will modify each page's animation properties
+     * @param pageLayerType       View layer type that should be used for ViewPager pages. It should be
+     *                            either {@link View#LAYER_TYPE_HARDWARE},
+     *                            {@link View#LAYER_TYPE_SOFTWARE}, or
+     *                            {@link View#LAYER_TYPE_NONE}.
      */
     public void setPageTransformer(boolean reverseDrawingOrder,
                                    @Nullable CoolViewPager.PageTransformer transformer, int pageLayerType) {
@@ -897,14 +909,14 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      * Set the number of pages that should be retained to either side of the
      * current page in the view hierarchy in an idle state. Pages beyond this
      * limit will be recreated from the adapter when needed.
-     *
+     * <p>
      * <p>This is offered as an optimization. If you know in advance the number
      * of pages you will need to support or have lazy-loading mechanisms in place
      * on your pages, tweaking this setting can have benefits in perceived smoothness
      * of paging animations and interaction. If you have a small number of pages (3-4)
      * that you can keep active all at once, less time will be spent in layout for
      * newly created view subtrees as the user pages back and forth.</p>
-     *
+     * <p>
      * <p>You should keep this limit low, especially if your pages have complex layouts.
      * This setting defaults to 1.</p>
      *
@@ -1007,8 +1019,8 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     /**
      * Like {@link View#scrollBy}, but scroll smoothly instead of immediately.
      *
-     * @param x the number of pixels to scroll by on the X axis
-     * @param y the number of pixels to scroll by on the Y axis
+     * @param x        the number of pixels to scroll by on the X axis
+     * @param y        the number of pixels to scroll by on the Y axis
      * @param velocity the velocity associated with a fling, if applicable. (0 otherwise)
      */
     void smoothScrollTo(int x, int y, int velocity) {
@@ -1484,6 +1496,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
             public CoolViewPager.SavedState createFromParcel(Parcel in) {
                 return new CoolViewPager.SavedState(in, null);
             }
+
             @Override
             public CoolViewPager.SavedState[] newArray(int size) {
                 return new CoolViewPager.SavedState[size];
@@ -1919,9 +1932,9 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      * (e.g. super.onPageScrolled(position, offset, offsetPixels)) before onPageScrolled
      * returns.
      *
-     * @param position Position index of the first page currently being displayed.
-     *                 Page position+1 will be visible if positionOffset is nonzero.
-     * @param offset Value from [0, 1) indicating the offset from the page at position.
+     * @param position     Position index of the first page currently being displayed.
+     *                     Page position+1 will be visible if positionOffset is nonzero.
+     * @param offset       Value from [0, 1) indicating the offset from the page at position.
      * @param offsetPixels Value in pixels indicating the offset from position.
      */
     @CallSuper
@@ -2087,15 +2100,16 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
 
     /**
      * 将事件原始X,Y坐标进行置换
+     *
      * @param event
      * @return
      */
-    private MotionEvent swapTouchEvent(MotionEvent event){
+    private MotionEvent swapTouchEvent(MotionEvent event) {
         float width = getWidth();
         float height = getHeight();
         float swappedX = (event.getY() / height) * width;
         float swappedY = (event.getX() / width) * height;
-        event.setLocation(swappedX,swappedY);
+        event.setLocation(swappedX, swappedY);
         return event;
     }
 
@@ -2104,7 +2118,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         /**
          * 1:如果滑动方向是垂直方向,则将原始MotionEvent的X、Y坐标进行置换
          */
-        if(mScrollMode == ScrollMode.VERTICAL){
+        if (mScrollMode == ScrollMode.VERTICAL) {
             swapTouchEvent(ev);
         }
         /*
@@ -2123,7 +2137,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
             /**
              * 2:如果滑动方向是垂直方向,则将1:置换过的X、Y坐标重置为原始值
              */
-            if(mScrollMode == ScrollMode.VERTICAL){
+            if (mScrollMode == ScrollMode.VERTICAL) {
                 swapTouchEvent(ev);
             }
             return false;
@@ -2137,7 +2151,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                 /**
                  * 2:如果滑动方向是垂直方向,则将1:置换过的X、Y坐标重置为原始值
                  */
-                if(mScrollMode == ScrollMode.VERTICAL){
+                if (mScrollMode == ScrollMode.VERTICAL) {
                     swapTouchEvent(ev);
                 }
                 return true;
@@ -2147,7 +2161,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                 /**
                  * 2:如果滑动方向是垂直方向,则将1:置换过的X、Y坐标重置为原始值
                  */
-                if(mScrollMode == ScrollMode.VERTICAL){
+                if (mScrollMode == ScrollMode.VERTICAL) {
                     swapTouchEvent(ev);
                 }
                 return false;
@@ -2188,7 +2202,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                     /**
                      * 2:如果滑动方向是垂直方向,则将1:置换过的X、Y坐标重置为原始值
                      */
-                    if(mScrollMode == ScrollMode.VERTICAL){
+                    if (mScrollMode == ScrollMode.VERTICAL) {
                         swapTouchEvent(ev);
                     }
                     return false;
@@ -2266,7 +2280,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         /**
          * 2:如果滑动方向是垂直方向,则将1:置换过的X、Y坐标重置为原始值
          */
-        if(mScrollMode == ScrollMode.VERTICAL){
+        if (mScrollMode == ScrollMode.VERTICAL) {
             swapTouchEvent(ev);
         }
         /*
@@ -2281,7 +2295,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         /**
          * 如果滑动方向是垂直方向,则将原始MotionEvent的X、Y坐标进行置换
          */
-        if(mScrollMode == ScrollMode.VERTICAL){
+        if (mScrollMode == ScrollMode.VERTICAL) {
             swapTouchEvent(ev);
         }
         if (mFakeDragging) {
@@ -2418,9 +2432,9 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         mRightEdge.onRelease();
         mTopEdge.onRelease();
         mBottomEdge.onRelease();
-        if(mScrollMode == ScrollMode.VERTICAL){
+        if (mScrollMode == ScrollMode.VERTICAL) {
             needsInvalidate = mTopEdge.isFinished() || mBottomEdge.isFinished();
-        }else{
+        } else {
             needsInvalidate = mLeftEdge.isFinished() || mRightEdge.isFinished();
         }
         return needsInvalidate;
@@ -2462,10 +2476,10 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         if (scrollX < leftBound) {
             if (leftAbsolute) {
                 float over = leftBound - scrollX;
-                if(mScrollMode == ScrollMode.VERTICAL){
+                if (mScrollMode == ScrollMode.VERTICAL) {
                     mTopEdge.onPull(Math.abs(over) / width);
 //                    Log.e("Jet","mTopEdge.onPull");
-                }else{
+                } else {
                     mLeftEdge.onPull(Math.abs(over) / width);
 //                    Log.e("Jet","mLeftEdge.onPull");
                 }
@@ -2475,10 +2489,10 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         } else if (scrollX > rightBound) {
             if (rightAbsolute) {
                 float over = scrollX - rightBound;
-                if(mScrollMode == ScrollMode.VERTICAL){
+                if (mScrollMode == ScrollMode.VERTICAL) {
                     mBottomEdge.onPull(Math.abs(over) / width);
 //                    Log.e("Jet","mBottomEdge.onPull");
-                }else{
+                } else {
                     mRightEdge.onPull(Math.abs(over) / width);
 //                    Log.e("Jet","mRightEdge.onPull");
                 }
@@ -2496,7 +2510,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
 
     /**
      * @return Info about the page at the current scroll position.
-     *         This can be synthetic for a missing middle page; the 'object' field can be null.
+     * This can be synthetic for a missing middle page; the 'object' field can be null.
      */
     private CoolViewPager.ItemInfo infoForCurrentScrollPosition() {
         final int width = getClientWidth();
@@ -2564,18 +2578,20 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     public void draw(Canvas canvas) {
         super.draw(canvas);
         boolean needsInvalidate = false;
-
+        if(mInfiniteLoop){
+            return;
+        }
         final int overScrollMode = getOverScrollMode();
         if (overScrollMode == View.OVER_SCROLL_ALWAYS
                 || (overScrollMode == View.OVER_SCROLL_IF_CONTENT_SCROLLS
                 && mAdapter != null && mAdapter.getCount() > 1)) {
-            if(mScrollMode == ScrollMode.VERTICAL){
+            if (mScrollMode == ScrollMode.VERTICAL) {
                 if (!mTopEdge.isFinished()) {
                     int restoreCount = canvas.save();
                     int width = getWidth();
                     int height = getHeight();
-                    if(getScrollX() > 0){
-                        canvas.translate(getScrollX(),0);
+                    if (getScrollX() > 0) {
+                        canvas.translate(getScrollX(), 0);
                     }
                     mTopEdge.setSize(width, height);
                     needsInvalidate |= mTopEdge.draw(canvas);
@@ -2585,16 +2601,16 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                     int restoreCount = canvas.save();
                     int width = getWidth();
                     int height = getHeight();
-                    if(getScrollX() > 0){
-                        canvas.translate(getScrollX(),0);
+                    if (getScrollX() > 0) {
+                        canvas.translate(getScrollX(), 0);
                     }
                     canvas.rotate(180);
-                    canvas.translate(-width,-height);
+                    canvas.translate(-width, -height);
                     mBottomEdge.setSize(width, height);
                     needsInvalidate |= mBottomEdge.draw(canvas);
                     canvas.restoreToCount(restoreCount);
                 }
-            }else{
+            } else {
                 if (!mLeftEdge.isFinished()) {
                     final int restoreCount = canvas.save();
                     final int height = getHeight() - getPaddingTop() - getPaddingBottom();
@@ -2617,10 +2633,10 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                 }
             }
         } else {
-            if(mScrollMode == ScrollMode.VERTICAL){
+            if (mScrollMode == ScrollMode.VERTICAL) {
                 mTopEdge.finish();
                 mBottomEdge.finish();
-            }else{
+            } else {
                 mLeftEdge.finish();
                 mRightEdge.finish();
             }
@@ -2678,18 +2694,17 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
 
     /**
      * Start a fake drag of the pager.
-     *
+     * <p>
      * <p>A fake drag can be useful if you want to synchronize the motion of the ViewPager
      * with the touch scrolling of another view, while still letting the ViewPager
      * control the snapping motion and fling behavior. (e.g. parallax-scrolling tabs.)
      * Call {@link #fakeDragBy(float)} to simulate the actual drag motion. Call
      * {@link #endFakeDrag()} to complete the fake drag and fling as necessary.
-     *
+     * <p>
      * <p>During a fake drag the ViewPager will ignore all touch events. If a real drag
      * is already in progress, this method will return false.
      *
      * @return true if the fake drag began successfully, false if it could not be started.
-     *
      * @see #fakeDragBy(float)
      * @see #endFakeDrag()
      */
@@ -2800,7 +2815,6 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      * Returns true if a fake drag is in progress.
      *
      * @return true if currently in a fake drag, false otherwise.
-     *
      * @see #beginFakeDrag()
      * @see #fakeDragBy(float)
      * @see #endFakeDrag()
@@ -2854,7 +2868,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
      *
      * @param direction Negative to check scrolling left, positive to check scrolling right.
      * @return Whether this ViewPager can be scrolled in the specified direction. It will always
-     *         return false if the specified direction is 0.
+     * return false if the specified direction is 0.
      */
     @Override
     public boolean canScrollHorizontally(int direction) {
@@ -2876,12 +2890,12 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
     /**
      * Tests scrollability within child views of v given a delta of dx.
      *
-     * @param v View to test for horizontal scrollability
+     * @param v      View to test for horizontal scrollability
      * @param checkV Whether the view v passed should itself be checked for scrollability (true),
      *               or just its children (false).
-     * @param dx Delta scrolled in pixels
-     * @param x X coordinate of the active touch point
-     * @param y Y coordinate of the active touch point
+     * @param dx     Delta scrolled in pixels
+     * @param x      X coordinate of the active touch point
+     * @param y      Y coordinate of the active touch point
      * @return true if child views of v can be scrolled by delta of dx.
      */
     protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
@@ -3241,13 +3255,15 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
                         setCurrentItem(mCurItem + 1);
                         return true;
                     }
-                } return false;
+                }
+                return false;
                 case AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD: {
                     if (canScrollHorizontally(-1)) {
                         setCurrentItem(mCurItem - 1);
                         return true;
                     }
-                } return false;
+                }
+                return false;
             }
             return false;
         }
@@ -3265,6 +3281,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         public void onChanged() {
             dataSetChanged();
         }
+
         @Override
         public void onInvalidated() {
             dataSetChanged();
@@ -3335,104 +3352,53 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature{
         }
     }
 
-    //从InfiniteCycleViewPager拷贝而来
-    // Flag for setCurrentItem to zero of half the virtual count when set adapter
-    private boolean mIsAdapterInitialPosition;
-    // Flag for data set changed callback to invalidateTransformer()
-    private boolean mIsDataSetChanged;
-    // Detect is ViewPager state
-    private int mState;
-    // When item count equals to 3 we need stack count for know is item on position -2 or 2 is placed
-    private int mStackCount;
-    // Inner and outer state of scrolling
-    private PageScrolledState mInnerPageScrolledState = PageScrolledState.IDLE;
-    private PageScrolledState mOuterPageScrolledState = PageScrolledState.IDLE;
-    // Flag for invalidate transformer side scroll when use setCurrentItem() method
-    private boolean mIsInitialItem;
-    // Page scrolled info positions
-    private float mPageScrolledPositionOffset;
-    private float mPageScrolledPosition;
-    // Detect if was minus one position of transform page for correct handle of page bring to front
-    private boolean mWasMinusOne;
-    // Detect if was plus one position of transform page for correct handle of page bring to front
-    private boolean mWasPlusOne;
-    // Flag to know is left page need bring to front for correct scrolling present
-    private boolean mIsLeftPageBringToFront;
-    // Flag to know is right page need bring to front for correct scrolling present
-    private boolean mIsRightPageBringToFront;
-
-    // Detect is we are idle in pageScrolled() callback, not in scrollStateChanged()
-    private boolean isSmallPositionOffset(float positionOffset) {
-        return Math.abs(positionOffset) < 0.0001F;
-    }
-    // Disable hardware layer when idle
-    private void disableHardwareLayers() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) return;
-        for (int i = 0; i < getChildCount(); i++) {
-            final View child = getChildAt(i);
-            if (child.getLayerType() != View.LAYER_TYPE_NONE)
-                child.setLayerType(View.LAYER_TYPE_NONE, null);
-        }
-    }
-
-    // OnPageChangeListener which is retrieve info about scroll direction and scroll state
-    protected final OnPageChangeListener mInfinityCyclePageChangeListener = new CoolViewPager.SimpleOnPageChangeListener() {
+    private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
+        //mPreviousOffset必须保留,mPreviousOffset==0是防止首尾页切换时候界面闪动的关键
+//        private float mPreviousOffset = -1;
         @Override
-        public void onPageScrolled(
-                final int position, final float positionOffset, final int positionOffsetPixels
-        ) {
-            // Reset stack count on each scroll offset
-            mStackCount = 0;
-
-            // We need to rewrite states when is dragging and when setCurrentItem() from idle
-            if (mState != CoolViewPager.SCROLL_STATE_SETTLING || mIsInitialItem) {
-                // Detect first state from idle
-                if (mOuterPageScrolledState == PageScrolledState.IDLE && positionOffset > 0) {
-                    mPageScrolledPosition = getCurrentItem();
-                    mOuterPageScrolledState = position == mPageScrolledPosition ?
-                            PageScrolledState.GOING_LEFT : PageScrolledState.GOING_RIGHT;
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            /*if(mInfiniteLoop){
+                int realPosition = position;
+                if(positionOffset == 0 && mPreviousOffset == 0 && (position == 0 || position == mAdapter.getCount() - 1)){
+                    realPosition = ((LoopPagerAdapterWrapper)mAdapter).toRealPosition(position);
+                    int realItem = ((LoopPagerAdapterWrapper)mAdapter).toInnerPosition(realPosition);
+                    Log.e("Jet","onPageScrolled:setCurrentItem:"+realItem);
+                    setCurrentItem(realItem,false);
+                    if(mScrollMode == ScrollMode.VERTICAL){
+                        Object item = mAdapter.instantiateItem(CoolViewPager.this,realItem);
+                        if(item instanceof View){
+                            View currView = (View) item;
+                            currView.setTranslationX(0f);
+                            currView.setTranslationY(0f);
+                        }
+                    }
                 }
-
-                // Rewrite scrolled state when switch to another edge
-                final boolean goingRight = position == mPageScrolledPosition;
-                if (mOuterPageScrolledState == PageScrolledState.GOING_LEFT && !goingRight)
-                    mOuterPageScrolledState = PageScrolledState.GOING_RIGHT;
-                else if (mOuterPageScrolledState == PageScrolledState.GOING_RIGHT && goingRight)
-                    mOuterPageScrolledState = PageScrolledState.GOING_LEFT;
-            }
-
-            // Rewrite inner dynamic scrolled state
-            if (mPageScrolledPositionOffset <= positionOffset)
-                mInnerPageScrolledState = PageScrolledState.GOING_LEFT;
-            else mInnerPageScrolledState = PageScrolledState.GOING_RIGHT;
-            mPageScrolledPositionOffset = positionOffset;
-
-            // Detect if is idle in pageScrolled() callback to transform pages last time
-            if ((isSmallPositionOffset(positionOffset) ? 0 : positionOffset) == 0) {
-                // Reset states and flags on idle
-                disableHardwareLayers();
-
-                mInnerPageScrolledState = PageScrolledState.IDLE;
-                mOuterPageScrolledState = PageScrolledState.IDLE;
-
-                mWasMinusOne = false;
-                mWasPlusOne = false;
-                mIsLeftPageBringToFront = false;
-                mIsRightPageBringToFront = false;
-
-                mIsInitialItem = false;
+                mPreviousOffset = positionOffset;
+            }*/
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if(mInfiniteLoop){
+                int position = getCurrentItem();
+                if(state == SCROLL_STATE_IDLE && (position == 0 || position == mAdapter.getCount() - 1)){
+                    int realPosition = ((LoopPagerAdapterWrapper)mAdapter).toRealPosition(position);
+                    int realItem = ((LoopPagerAdapterWrapper)mAdapter).toInnerPosition(realPosition);
+                    Log.e("Jet","onPageScrollStateChanged:setCurrentItem:"+realItem);
+                    setCurrentItem(realItem,false);
+                    if(mScrollMode == ScrollMode.VERTICAL){
+                        Object item = mAdapter.instantiateItem(CoolViewPager.this,realItem);
+                        if(item instanceof View){
+                            View currView = (View) item;
+                            currView.setTranslationX(0f);
+                            currView.setTranslationY(0f);
+                        }
+                    }
+                }
             }
         }
-
         @Override
-        public void onPageScrollStateChanged(final int state) {
-            mState = state;
+        public void onPageSelected(int position) {
+//            Log.e("Jet","onPageSelected");
         }
     };
-
-    // Page scrolled state
-    private enum PageScrolledState {
-        IDLE, GOING_LEFT, GOING_RIGHT
-    }
-    //从InfiniteCycleViewPager拷贝而来
 }

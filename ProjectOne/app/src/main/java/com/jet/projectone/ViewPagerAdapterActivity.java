@@ -10,6 +10,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 1:自定义Adapter,主要解决ViewPager关联的Adapter实例调用notifyDataSetChanged(),ViewPager界面不刷新的问题
  * 见:http://www.07net01.com/program/642011.html
@@ -22,7 +25,6 @@ import android.widget.ImageView;
 public class ViewPagerAdapterActivity extends AppCompatActivity {
     private ViewPager vp;
     private PagerAdapter adapter;
-    private int[] imgs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +37,20 @@ public class ViewPagerAdapterActivity extends AppCompatActivity {
         initData();
     }
 
+    List<View> items = new ArrayList<>();
+    public View createImageView(int imgResId){
+        ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(new ViewPager.LayoutParams());
+        imageView.setImageResource(imgResId);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        return imageView;
+    }
     private void initData() {
-        imgs = new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3};
-        adapter = new ViewPagerAdapter(ViewPagerAdapterActivity.this,imgs);
+        items = new ArrayList<>();
+        items.add(createImageView(R.mipmap.img1));
+        items.add(createImageView(R.mipmap.img2));
+        items.add(createImageView(R.mipmap.img3));
+        adapter = new ViewPagerAdapter(items);
         vp.setAdapter(adapter);
     }
 
@@ -45,46 +58,36 @@ public class ViewPagerAdapterActivity extends AppCompatActivity {
         vp = findViewById(R.id.vp);
 //        vp.setOffscreenPageLimit(3);
     }
-    private int oriIndex = 0;
     public void oriModifyItemNotify(View view) {
         if(adapter instanceof CustomPagerAdapter){
-            imgs = new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3};
-            adapter = new ViewPagerAdapter(ViewPagerAdapterActivity.this,imgs);
+            items = new ArrayList<>();
+            items.add(createImageView(R.mipmap.img1));
+            items.add(createImageView(R.mipmap.img2));
+            items.add(createImageView(R.mipmap.img3));
+            adapter = new ViewPagerAdapter(items);
             vp.setAdapter(adapter);
-            oriIndex = 0;
-        }else{
-            if(oriIndex == 1){
-                imgs = new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3};
-                adapter = new ViewPagerAdapter(ViewPagerAdapterActivity.this,imgs);
-                vp.setAdapter(adapter);
-            }else{
-                imgs[0] = R.mipmap.img4;
-                imgs[1] = R.mipmap.img5;
-                imgs[2] = R.mipmap.img6;
-                adapter.notifyDataSetChanged();
-            }
-            oriIndex = (++oriIndex)%2;
+        }
+        if(adapter.getCount() == 3){
+            items.add(createImageView(R.mipmap.img4));
+            items.add(createImageView(R.mipmap.img5));
+            items.add(createImageView(R.mipmap.img6));
+            adapter.notifyDataSetChanged();
         }
     }
-    private int modifyIndex = 0;
     public void customModifyItemNotify(View view) {
-        if(adapter instanceof CustomPagerAdapter){
-            if(modifyIndex == 1){
-                imgs = new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3};
-                adapter = new CustomPagerAdapter(ViewPagerAdapterActivity.this,imgs);
-                vp.setAdapter(adapter);
-            }else{
-                imgs[0] = R.mipmap.img4;
-                imgs[1] = R.mipmap.img5;
-                imgs[2] = R.mipmap.img6;
-                adapter.notifyDataSetChanged();
-            }
-            modifyIndex = (++modifyIndex)%2;
-        }else{
-            imgs = new int[]{R.mipmap.img1,R.mipmap.img2,R.mipmap.img3};
-            adapter = new CustomPagerAdapter(ViewPagerAdapterActivity.this,imgs);
+        if(!(adapter instanceof CustomPagerAdapter)){
+            items = new ArrayList<>();
+            items.add(createImageView(R.mipmap.img1));
+            items.add(createImageView(R.mipmap.img2));
+            items.add(createImageView(R.mipmap.img3));
+            adapter = new CustomPagerAdapter(items);
             vp.setAdapter(adapter);
-            modifyIndex = 0;
+        }
+        if(adapter.getCount() == 3){
+            items.add(createImageView(R.mipmap.img4));
+            items.add(createImageView(R.mipmap.img5));
+            items.add(createImageView(R.mipmap.img6));
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -105,9 +108,10 @@ public class ViewPagerAdapterActivity extends AppCompatActivity {
     }
 
     class CustomPagerAdapter extends ViewPagerAdapter{
-        public CustomPagerAdapter(Context mContext, int[] mImgs) {
-            super(mContext, mImgs);
+        public CustomPagerAdapter(List<View> items) {
+            super(items);
         }
+
         @Override
         public int getItemPosition(Object object) {
             int mChildCount = getCount();
