@@ -372,11 +372,9 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     public enum ScrollMode {
         HORIZONTAL(0), VERTICAL(1);
         int id;
-
         ScrollMode(int id) {
             this.id = id;
         }
-
         static ScrollMode getScrollMode(int id) {
             for (ScrollMode scrollMode : values()) {
                 if (scrollMode.id == id)
@@ -386,7 +384,41 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         }
     }
 
+    /**
+     * 自动滚动方向枚举类
+     */
+    public enum AutoScrollDirection {
+        FORWARD(0), BACKWARD(1);
+        int id;
+
+        AutoScrollDirection(int id) {
+            this.id = id;
+        }
+        static AutoScrollDirection getAutoScrollDirection(int id) {
+            for (AutoScrollDirection autoScrollDirection:values()) {
+                if(autoScrollDirection.id == id){
+                    return autoScrollDirection;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private TimerHandler.TimerHandlerListener mTimerHandlerListener = new TimerHandler.TimerHandlerListener() {
+        @Override
+        public void callBack() {
+            autoScrollNextPage();
+        }
+    };
     private ScrollMode mScrollMode = ScrollMode.HORIZONTAL;
+    private boolean mAutoScroll = false;
+    private int mIntervalInMillis = 3000;
+    private AutoScrollDirection mAutoScrollDirection = AutoScrollDirection.FORWARD;
+    private TimerHandler timer;
+    private boolean mInfiniteLoop = false;
+    private boolean mDrawEdgeEffect = true;
+    private @ColorInt
+    int mEdgeEffectColor = -Integer.MAX_VALUE;
 
     @Override
     public void setScrollMode(ScrollMode scrollMode) {
@@ -402,23 +434,54 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         }
     }
 
-    private boolean mDrawEdgeEffect = true;
-    private @ColorInt
-    int mEdgeEffectColor = -Integer.MAX_VALUE;
-    private boolean mInfiniteLoop = false;
-
     @Override
-    public void setDrawEdgeEffect(boolean drawEdgeEffect) {
-        this.mDrawEdgeEffect = drawEdgeEffect;
+    public void setAutoScroll(boolean autoScroll, int ... intervalInMillis) {
+        this.mAutoScroll = autoScroll;
+        if(intervalInMillis.length > 0 && intervalInMillis[0] > 0){
+            this.mIntervalInMillis = intervalInMillis[0];
+        }
+        if(!this.mAutoScroll){
+            stopTimer();
+            timer = null;
+        }else{
+            timer = new TimerHandler(this, mTimerHandlerListener, this.mIntervalInMillis);
+            if(this.mAdapter != null && this.mAdapter.getCount() > 1){
+                startTimer();
+            }
+        }
+    }
+    public boolean isAutoScroll(){
+        return this.mAutoScroll;
+    }
+    public void toggleAutoScroll(){
+        this.mAutoScroll = !this.mAutoScroll;
+        setAutoScroll(this.mAutoScroll);
+    }
+    public int getIntervalInMillis(){
+        return this.mIntervalInMillis;
     }
 
     @Override
-    public void setEdgeEffectColor(@ColorInt int color) {
-        this.mEdgeEffectColor = color;
-        ReflectionUtils.invoke(mLeftEdge, "setColor", new Class[]{int.class}, new Object[]{color});
-        ReflectionUtils.invoke(mTopEdge, "setColor", new Class[]{int.class}, new Object[]{color});
-        ReflectionUtils.invoke(mRightEdge, "setColor", new Class[]{int.class}, new Object[]{color});
-        ReflectionUtils.invoke(mBottomEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+    public void setAutoScrollDirection(AutoScrollDirection autoScrollDirection) {
+        this.mAutoScrollDirection = autoScrollDirection;
+    }
+    public AutoScrollDirection getAutoScrollDirection(){
+        return this.mAutoScrollDirection;
+    }
+    public void toggleAutoScrollDirection(){
+        if(this.mAutoScrollDirection == AutoScrollDirection.FORWARD){
+            this.mAutoScrollDirection = AutoScrollDirection.BACKWARD;
+        }else{
+            this.mAutoScrollDirection = AutoScrollDirection.FORWARD;
+        }
+    }
+
+    @Override
+    public void autoScrollNextPage() {
+        if(this.mAutoScroll && this.mAdapter != null && this.mAdapter.getCount() > 1){
+            int nextItem = getAutoScrollNextItem();
+            setCurrentItem(nextItem,true);
+        }
     }
 
     @Override
@@ -443,6 +506,57 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         return this.mInfiniteLoop;
     }
 
+    @Override
+    public void setDrawEdgeEffect(boolean drawEdgeEffect) {
+        this.mDrawEdgeEffect = drawEdgeEffect;
+    }
+
+    @Override
+    public void setEdgeEffectColor(@ColorInt int color) {
+        this.mEdgeEffectColor = color;
+        ReflectionUtils.invoke(mLeftEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+        ReflectionUtils.invoke(mTopEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+        ReflectionUtils.invoke(mRightEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+        ReflectionUtils.invoke(mBottomEdge, "setColor", new Class[]{int.class}, new Object[]{color});
+    }
+
+    private void startTimer() {
+        if (timer == null || !timer.isStopped) {
+            return;
+        }
+        timer.listener = mTimerHandlerListener;
+        timer.removeCallbacksAndMessages(null);
+        timer.tick();
+        timer.isStopped = false;
+    }
+    private void stopTimer() {
+        if (timer == null || timer.isStopped) {
+            return;
+        }
+        timer.removeCallbacksAndMessages(null);
+        timer.listener = null;
+        timer.isStopped = true;
+    }
+    /**
+     * 获取在自动滚动开启情况下,当前实例要展示的下一页的索引值
+     *
+     * @return
+     */
+    private int getAutoScrollNextItem(){
+        int nextItem = 0;
+        if(mAutoScrollDirection == AutoScrollDirection.FORWARD){
+            nextItem = mCurItem + 1;
+        }else{
+            nextItem = mCurItem - 1;
+        }
+        if(nextItem > this.mAdapter.getCount() - 1){
+            nextItem = 0;
+        }else if(nextItem < 0){
+            nextItem = this.mAdapter.getCount() - 1;
+        }
+        return nextItem;
+    };
+
     /**
      * 初始化自定义属性
      *
@@ -453,12 +567,17 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CoolViewPager);
             mScrollMode = ScrollMode.getScrollMode(ta.getInt(R.styleable.CoolViewPager_cvp_scrollmode, 0));
+            mAutoScroll = ta.getBoolean(R.styleable.CoolViewPager_cvp_autoscroll, mAutoScroll);
+            mIntervalInMillis = ta.getInteger(R.styleable.CoolViewPager_cvp_intervalinmillis,mIntervalInMillis);
+            mAutoScrollDirection = AutoScrollDirection.getAutoScrollDirection(ta.getInt(R.styleable.CoolViewPager_cvp_autoscrolldirection,0));
+            mInfiniteLoop = ta.getBoolean(R.styleable.CoolViewPager_cvp_infiniteloop,mInfiniteLoop);
             mDrawEdgeEffect = ta.getBoolean(R.styleable.CoolViewPager_cvp_drawedgeeffect, mDrawEdgeEffect);
             mEdgeEffectColor = ta.getColor(R.styleable.CoolViewPager_cvp_edgeeffectcolor, mEdgeEffectColor);
-            mInfiniteLoop = ta.getBoolean(R.styleable.CoolViewPager_cvp_infiniteloop,mInfiniteLoop);
             ta.recycle();
         }
         setScrollMode(mScrollMode);
+        setAutoScroll(mAutoScroll,mIntervalInMillis);
+        setAutoScrollDirection(mAutoScrollDirection);
         if (mDrawEdgeEffect && mEdgeEffectColor != -Integer.MAX_VALUE) {
             setEdgeEffectColor(mEdgeEffectColor);
         }
@@ -573,6 +692,8 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
      * @param adapter Adapter to use
      */
     public void setAdapter(@Nullable PagerAdapter adapter) {
+        //设置Adapter前先停止自动滚动
+        stopTimer();
         if (mAdapter != null) {
 //            mAdapter.setViewPagerObserver(null);
             //setViewPagerObserver不是public方法,package外不能调用,使用反射调用
@@ -635,6 +756,10 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             int realItem = ((LoopPagerAdapterWrapper)mAdapter).toInnerPosition(0);
             setCurrentItem(realItem,false);
         }
+        //设置Adapter后,如果Adapter中项数大于1,且开启了自动滚动,则重启
+        if(this.mAdapter != null && this.mAdapter.getCount() > 1 && this.mAutoScroll){
+            startTimer();
+        }
     }
 
     private void removeNonDecorViews() {
@@ -659,8 +784,14 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         return mAdapter;
     }
     public void notifyDataSetChanged(){
-        if(mAdapter != null){
+        if(this.mAdapter != null){
+            //notifyDataSetChanged前先停止自动滚动
+            stopTimer();
             mAdapter.notifyDataSetChanged();
+            //notifyDataSetChanged执行完毕,如果Adapter中项数大于1,且开启了自动滚动,则重启
+            if(this.mAdapter != null && this.mAdapter.getCount() > 1 && this.mAutoScroll){
+                startTimer();
+            }
         }
     }
 

@@ -22,11 +22,33 @@ interface ICoolViewPagerFeature {
     void setScrollMode(CoolViewPager.ScrollMode scrollMode);
 
     /**
-     * 设置EdgeEffect的颜色
+     * 设置是否开启自动滚动,并设置自动滚动时间间隔
      *
-     * @param color
+     * @param autoScroll
+     * @param intervalInMillis
      */
-    void setEdgeEffectColor(@ColorInt int color);
+    void setAutoScroll(boolean autoScroll,int ... intervalInMillis);
+
+
+
+    /**
+     * 设置自动滚动方向
+     *
+     * @param autoScrollDirection
+     */
+    void setAutoScrollDirection(CoolViewPager.AutoScrollDirection autoScrollDirection);
+
+    /**
+     * 在自动滚动开启情况下,自动滚动到下一页
+     */
+    void autoScrollNextPage();
+
+    /**
+     * 设置是否循环滚动
+     *
+     * @param infiniteLoop
+     */
+    void setInfiniteLoop(boolean infiniteLoop);
 
     /**
      * 设置是否绘制EdgeEffect
@@ -36,9 +58,9 @@ interface ICoolViewPagerFeature {
     void setDrawEdgeEffect(boolean drawEdgeEffect);
 
     /**
-     * 设置是否循环滚动
-     * @param infiniteLoop
+     * 设置EdgeEffect的颜色
+     *
+     * @param color
      */
-    void setInfiniteLoop(boolean infiniteLoop);
-
+    void setEdgeEffectColor(@ColorInt int color);
 }

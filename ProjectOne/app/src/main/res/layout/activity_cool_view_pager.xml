@@ -21,4 +21,11 @@
         android:textAllCaps="false"
         android:onClick="goCVP2"
         />
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自动滚动,自定义滚动方向及间隔时间"
+        android:textAllCaps="false"
+        android:onClick="goCVP3"
+        />
 </LinearLayout>
