@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jet.projectone.CoolViewPagerActivity"
+    android:orientation="vertical"
+    >
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="水平垂直循环及自定义边缘效果颜色"
+        android:textAllCaps="false"
+        android:onClick="goCVP1"
+        />
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="notifyDataSetChanged"
+        android:textAllCaps="false"
+        android:onClick="goCVP2"
+        />
+</LinearLayout>
