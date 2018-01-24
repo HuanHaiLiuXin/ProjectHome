@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.jet.projectone.CollViewPagerActivity">
+    tools:context="com.jet.projectone.CoolVP1Activity"
+    android:padding="16dp"
+    >
 
     <com.huanhailiuxin.coolviewpager.CoolViewPager
         android:id="@+id/vp1"
-        android:layout_width="600px"
+        android:layout_width="match_parent"
         android:layout_height="600px"
         app:cvp_scrollmode="horizontal"
         app:cvp_edgeeffectcolor="#81CC86"
@@ -40,7 +42,7 @@
     <com.huanhailiuxin.coolviewpager.CoolViewPager
         android:layout_marginTop="40dp"
         android:id="@+id/vp2"
-        android:layout_width="600px"
+        android:layout_width="match_parent"
         android:layout_height="600px"
         app:cvp_scrollmode="vertical"
         app:cvp_edgeeffectcolor="@android:color/holo_red_light"

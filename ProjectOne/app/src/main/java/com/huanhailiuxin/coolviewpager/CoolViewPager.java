@@ -43,6 +43,7 @@ import android.widget.EdgeEffect;
 import android.widget.Scroller;
 
 import com.huanhailiuxin.coolviewpager.adapter.LoopPagerAdapterWrapper;
+import com.huanhailiuxin.coolviewpager.adapter.PagerAdapterWrapper;
 import com.huanhailiuxin.coolviewpager.transformer.DefaultVerticalTransformer;
 import com.jet.projectone.R;
 import com.jet.projectone.ReflectionUtils;
@@ -566,7 +567,6 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         dispatchOnScrollStateChanged(newState);
     }
 
-//    private LoopPagerAdapterWrapper mLoopPagerAdapter;
     /**
      * Set a PagerAdapter that will supply views for this pager as needed.
      *
@@ -596,7 +596,8 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             setOnPageChangeListener(onPageChangeListener);
         }else{
             mInfiniteLoop = false;
-            mAdapter = adapter;
+//            mAdapter = adapter;
+            mAdapter = new PagerAdapterWrapper(adapter);
             setOnPageChangeListener(null);
         }
         mExpectedAdapterCount = 0;
@@ -654,7 +655,13 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
      */
     @Nullable
     public PagerAdapter getAdapter() {
-        return mAdapter instanceof LoopPagerAdapterWrapper ? ((LoopPagerAdapterWrapper)mAdapter).getRealAdapter() : mAdapter;
+//        return mAdapter instanceof LoopPagerAdapterWrapper ? ((LoopPagerAdapterWrapper)mAdapter).getRealAdapter() : mAdapter;
+        return mAdapter;
+    }
+    public void notifyDataSetChanged(){
+        if(mAdapter != null){
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -2585,58 +2592,58 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         boolean needsInvalidate = false;
-        if(mInfiniteLoop){
-            return;
-        }
         final int overScrollMode = getOverScrollMode();
         if (overScrollMode == View.OVER_SCROLL_ALWAYS
                 || (overScrollMode == View.OVER_SCROLL_IF_CONTENT_SCROLLS
                 && mAdapter != null && mAdapter.getCount() > 1)) {
-            if (mScrollMode == ScrollMode.VERTICAL) {
-                if (!mTopEdge.isFinished()) {
-                    int restoreCount = canvas.save();
-                    int width = getWidth();
-                    int height = getHeight();
-                    if (getScrollX() > 0) {
-                        canvas.translate(getScrollX(), 0);
+            if(mInfiniteLoop){
+            }else{
+                if (mScrollMode == ScrollMode.VERTICAL) {
+                    if (!mTopEdge.isFinished()) {
+                        int restoreCount = canvas.save();
+                        int width = getWidth();
+                        int height = getHeight();
+                        if (getScrollX() > 0) {
+                            canvas.translate(getScrollX(), 0);
+                        }
+                        mTopEdge.setSize(width, height);
+                        needsInvalidate |= mTopEdge.draw(canvas);
+                        canvas.restoreToCount(restoreCount);
                     }
-                    mTopEdge.setSize(width, height);
-                    needsInvalidate |= mTopEdge.draw(canvas);
-                    canvas.restoreToCount(restoreCount);
-                }
-                if (!mBottomEdge.isFinished()) {
-                    int restoreCount = canvas.save();
-                    int width = getWidth();
-                    int height = getHeight();
-                    if (getScrollX() > 0) {
-                        canvas.translate(getScrollX(), 0);
+                    if (!mBottomEdge.isFinished()) {
+                        int restoreCount = canvas.save();
+                        int width = getWidth();
+                        int height = getHeight();
+                        if (getScrollX() > 0) {
+                            canvas.translate(getScrollX(), 0);
+                        }
+                        canvas.rotate(180);
+                        canvas.translate(-width, -height);
+                        mBottomEdge.setSize(width, height);
+                        needsInvalidate |= mBottomEdge.draw(canvas);
+                        canvas.restoreToCount(restoreCount);
                     }
-                    canvas.rotate(180);
-                    canvas.translate(-width, -height);
-                    mBottomEdge.setSize(width, height);
-                    needsInvalidate |= mBottomEdge.draw(canvas);
-                    canvas.restoreToCount(restoreCount);
-                }
-            } else {
-                if (!mLeftEdge.isFinished()) {
-                    final int restoreCount = canvas.save();
-                    final int height = getHeight() - getPaddingTop() - getPaddingBottom();
-                    final int width = getWidth();
-                    canvas.rotate(270);
-                    canvas.translate(-height + getPaddingTop(), mFirstOffset * width);
-                    mLeftEdge.setSize(height, width);
-                    needsInvalidate |= mLeftEdge.draw(canvas);
-                    canvas.restoreToCount(restoreCount);
-                }
-                if (!mRightEdge.isFinished()) {
-                    final int restoreCount = canvas.save();
-                    final int width = getWidth();
-                    final int height = getHeight() - getPaddingTop() - getPaddingBottom();
-                    canvas.rotate(90);
-                    canvas.translate(-getPaddingTop(), -(mLastOffset + 1) * width);
-                    mRightEdge.setSize(height, width);
-                    needsInvalidate |= mRightEdge.draw(canvas);
-                    canvas.restoreToCount(restoreCount);
+                } else {
+                    if (!mLeftEdge.isFinished()) {
+                        final int restoreCount = canvas.save();
+                        final int height = getHeight() - getPaddingTop() - getPaddingBottom();
+                        final int width = getWidth();
+                        canvas.rotate(270);
+                        canvas.translate(-height + getPaddingTop(), mFirstOffset * width);
+                        mLeftEdge.setSize(height, width);
+                        needsInvalidate |= mLeftEdge.draw(canvas);
+                        canvas.restoreToCount(restoreCount);
+                    }
+                    if (!mRightEdge.isFinished()) {
+                        final int restoreCount = canvas.save();
+                        final int width = getWidth();
+                        final int height = getHeight() - getPaddingTop() - getPaddingBottom();
+                        canvas.rotate(90);
+                        canvas.translate(-getPaddingTop(), -(mLastOffset + 1) * width);
+                        mRightEdge.setSize(height, width);
+                        needsInvalidate |= mRightEdge.draw(canvas);
+                        canvas.restoreToCount(restoreCount);
+                    }
                 }
             }
         } else {

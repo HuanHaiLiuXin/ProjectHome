@@ -65,8 +65,8 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        int realPosition = toRealPosition(position);
-        mAdapter.destroyItem(container,realPosition,object);
+        /*int realPosition = toRealPosition(position);
+        mAdapter.destroyItem(container,realPosition,object);*/
     }
 
     /**

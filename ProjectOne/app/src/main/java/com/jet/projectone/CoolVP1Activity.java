@@ -17,7 +17,7 @@ import com.huanhailiuxin.coolviewpager.CoolViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollViewPagerActivity extends AppCompatActivity {
+public class CoolVP1Activity extends AppCompatActivity {
     private CoolViewPager vp1;
     private CoolViewPager vp2;
 
@@ -26,7 +26,7 @@ public class CollViewPagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN|WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_coll_view_pager);
+        setContentView(R.layout.activity_cool_view_pager1);
         getSupportActionBar().hide();
         initView();
     }

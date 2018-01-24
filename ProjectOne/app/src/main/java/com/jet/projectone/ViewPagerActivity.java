@@ -44,7 +44,7 @@ public class ViewPagerActivity extends AppCompatActivity {
     }
 
     public void goCustomViewPager(View view) {
-        jump(CollViewPagerActivity.class);
+        jump(CoolViewPagerActivity.class);
     }
 
     public void goAlibabaVP(View view) {
