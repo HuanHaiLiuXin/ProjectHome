@@ -445,9 +445,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             timer = null;
         }else{
             timer = new TimerHandler(this, mTimerHandlerListener, this.mIntervalInMillis);
-            if(this.mAdapter != null && this.mAdapter.getCount() > 1){
-                startTimer();
-            }
+            checkAndStartTimer();
         }
     }
     public boolean isAutoScroll(){
@@ -520,6 +518,14 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         ReflectionUtils.invoke(mBottomEdge, "setColor", new Class[]{int.class}, new Object[]{color});
     }
 
+    /**
+     * 如果设置了Adapter,且Adapter中项数大于1,且开启了自动滚动,开启循环滚动
+     */
+    private void checkAndStartTimer(){
+        if(this.mAdapter != null && this.mAdapter.getCount() > 1 && this.mAutoScroll){
+            startTimer();
+        }
+    }
     private void startTimer() {
         if (timer == null || !timer.isStopped) {
             return;
@@ -663,15 +669,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
                 });
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        removeCallbacks(mEndScrollRunnable);
-        // To be on the safe side, abort the scroller
-        if ((mScroller != null) && !mScroller.isFinished()) {
-            mScroller.abortAnimation();
-        }
-        super.onDetachedFromWindow();
-    }
+
 
     void setScrollState(int newState) {
         if (mScrollState == newState) {
@@ -756,10 +754,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             int realItem = ((LoopPagerAdapterWrapper)mAdapter).toInnerPosition(0);
             setCurrentItem(realItem,false);
         }
-        //设置Adapter后,如果Adapter中项数大于1,且开启了自动滚动,则重启
-        if(this.mAdapter != null && this.mAdapter.getCount() > 1 && this.mAutoScroll){
-            startTimer();
-        }
+        checkAndStartTimer();
     }
 
     private void removeNonDecorViews() {
@@ -788,10 +783,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             //notifyDataSetChanged前先停止自动滚动
             stopTimer();
             mAdapter.notifyDataSetChanged();
-            //notifyDataSetChanged执行完毕,如果Adapter中项数大于1,且开启了自动滚动,则重启
-            if(this.mAdapter != null && this.mAdapter.getCount() > 1 && this.mAutoScroll){
-                startTimer();
-            }
+            checkAndStartTimer();
         }
     }
 
@@ -1762,11 +1754,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         return null;
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        mFirstLayout = true;
-    }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -3546,4 +3534,53 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
 //            Log.e("Jet","onPageSelected");
         }
     };
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mFirstLayout = true;
+        checkAndStartTimer();
+    }
+    @Override
+    protected void onDetachedFromWindow() {
+        removeCallbacks(mEndScrollRunnable);
+        // To be on the safe side, abort the scroller
+        if ((mScroller != null) && !mScroller.isFinished()) {
+            mScroller.abortAnimation();
+        }
+        super.onDetachedFromWindow();
+        stopTimer();
+    }
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        if (visibility == VISIBLE) {
+            checkAndStartTimer();
+        } else {
+            stopTimer();
+        }
+    }
+    @Override
+    public void onStartTemporaryDetach() {
+        super.onStartTemporaryDetach();
+        stopTimer();
+    }
+    @Override
+    public void onFinishTemporaryDetach() {
+        super.onFinishTemporaryDetach();
+        checkAndStartTimer();
+    }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (timer != null) {
+            final int action = ev.getAction();
+            if (action == MotionEvent.ACTION_DOWN) {
+                stopTimer();
+            }
+            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                checkAndStartTimer();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }
