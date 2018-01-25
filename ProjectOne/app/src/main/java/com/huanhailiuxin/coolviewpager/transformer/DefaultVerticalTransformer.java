@@ -1,6 +1,7 @@
 package com.huanhailiuxin.coolviewpager.transformer;
 
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.huanhailiuxin.coolviewpager.CoolViewPager;
@@ -12,7 +13,7 @@ import com.huanhailiuxin.coolviewpager.CoolViewPager;
  * 2018/1/16 11:31
  */
 
-public class DefaultVerticalTransformer implements CoolViewPager.PageTransformer {
+public class DefaultVerticalTransformer implements ViewPager.PageTransformer {
     @Override
     public void transformPage(@NonNull View page, float position) {
         page.setTranslationX(page.getWidth() * -position);

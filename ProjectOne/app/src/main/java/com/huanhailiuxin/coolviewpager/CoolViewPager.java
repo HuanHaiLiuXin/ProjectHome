@@ -22,6 +22,7 @@ import android.support.v4.view.AccessibilityDelegateCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.WindowInsetsCompat;
 import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
@@ -211,7 +212,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     private CoolViewPager.OnPageChangeListener mOnPageChangeListener;
     private CoolViewPager.OnPageChangeListener mInternalPageChangeListener;
     private List<CoolViewPager.OnAdapterChangeListener> mAdapterChangeListeners;
-    private CoolViewPager.PageTransformer mPageTransformer;
+    private ViewPager.PageTransformer mPageTransformer;
     private int mPageTransformerLayerType;
 
     private static final int DRAW_ORDER_DEFAULT = 0;
@@ -315,7 +316,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
      * setting a PageTransformer on a ViewPager on earlier platform versions will
      * be ignored.</p>
      */
-    public interface PageTransformer {
+//    public interface PageTransformer {
         /**
          * Apply a property transformation to the given page.
          *
@@ -324,8 +325,8 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
          *                 position of the pager. 0 is front and center. 1 is one full
          *                 page position to the right, and -1 is one page position to the left.
          */
-        void transformPage(@NonNull View page, float position);
-    }
+//        void transformPage(@NonNull View page, float position);
+//    }
 
     /**
      * Callback interface for responding to adapter changes.
@@ -980,7 +981,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     }
 
     /**
-     * Sets a {@link CoolViewPager.PageTransformer} that will be called for each attached page whenever
+     * Sets a {@link ViewPager.PageTransformer} that will be called for each attached page whenever
      * the scroll position is changed. This allows the application to apply custom property
      * transformations to each page, overriding the default sliding behavior.
      * <p>
@@ -989,7 +990,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
      * but it will cause issues if any of your pages contain a {@link android.view.SurfaceView}
      * and you have not called {@link android.view.SurfaceView#setZOrderOnTop(boolean)} to put that
      * {@link android.view.SurfaceView} above your app content. To disable this behavior, call
-     * {@link #setPageTransformer(boolean, CoolViewPager.PageTransformer, int)} and pass
+     * {@link #setPageTransformer(boolean, ViewPager.PageTransformer, int)} and pass
      * {@link View#LAYER_TYPE_NONE} for {@code pageLayerType}.</p>
      *
      * @param reverseDrawingOrder true if the supplied PageTransformer requires page views
@@ -997,12 +998,12 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
      * @param transformer         PageTransformer that will modify each page's animation properties
      */
     public void setPageTransformer(boolean reverseDrawingOrder,
-                                   @Nullable CoolViewPager.PageTransformer transformer) {
+                                   @Nullable ViewPager.PageTransformer transformer) {
         setPageTransformer(reverseDrawingOrder, transformer, View.LAYER_TYPE_HARDWARE);
     }
 
     /**
-     * Sets a {@link CoolViewPager.PageTransformer} that will be called for each attached page whenever
+     * Sets a {@link ViewPager.PageTransformer} that will be called for each attached page whenever
      * the scroll position is changed. This allows the application to apply custom property
      * transformations to each page, overriding the default sliding behavior.
      *
@@ -1015,7 +1016,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
      *                            {@link View#LAYER_TYPE_NONE}.
      */
     public void setPageTransformer(boolean reverseDrawingOrder,
-                                   @Nullable CoolViewPager.PageTransformer transformer, int pageLayerType) {
+                                   @Nullable ViewPager.PageTransformer transformer, int pageLayerType) {
         final boolean hasTransformer = transformer != null;
         final boolean needsPopulate = hasTransformer != (mPageTransformer != null);
         mPageTransformer = transformer;

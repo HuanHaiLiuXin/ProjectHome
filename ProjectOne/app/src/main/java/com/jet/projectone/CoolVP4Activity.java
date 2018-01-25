@@ -1,5 +1,6 @@
 package com.jet.projectone;
 
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.huanhailiuxin.coolviewpager.CoolViewPager;
@@ -43,10 +44,10 @@ public class CoolVP4Activity extends BaseActivity {
     }
 
     private int currIndex = -1;
-    private CoolViewPager.PageTransformer[] horizontals = new CoolViewPager.PageTransformer[]{
+    private ViewPager.PageTransformer[] horizontals = new ViewPager.PageTransformer[]{
 
     };
-    private CoolViewPager.PageTransformer[] verticals = new CoolViewPager.PageTransformer[]{
+    private ViewPager.PageTransformer[] verticals = new ViewPager.PageTransformer[]{
 
     };
     public void changePageTransformer(View view) {
