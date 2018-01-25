@@ -38,8 +38,10 @@
         <activity android:name=".CoolVP1Activity" />
         <activity android:name=".CoolVP2Activity" />
         <activity android:name=".CoolVP3Activity" />
+        <activity android:name=".CoolVP4Activity" />
         <activity android:name=".VpClipChildrenActivity" />
         <activity android:name=".CoolViewPagerActivity" />
+        <activity android:name=".VPMultiPageActivity" />
     </application>
 
 </manifest>

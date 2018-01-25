@@ -46,7 +46,6 @@ import com.huanhailiuxin.coolviewpager.adapter.LoopPagerAdapterWrapper;
 import com.huanhailiuxin.coolviewpager.adapter.PagerAdapterWrapper;
 import com.huanhailiuxin.coolviewpager.transformer.DefaultVerticalTransformer;
 import com.jet.projectone.R;
-import com.jet.projectone.ReflectionUtils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -63,11 +62,14 @@ import java.util.List;
  * GitHub:https://github.com/HuanHaiLiuXin
  * 邮箱:wall0920@163.com
  * 2018/1/17 12:08
+ *
  * <p>
- * 拷贝{@link android.support.v4.view.ViewPager},修改少量代码实现自定义动能,如:
- * 水平、垂直方向滑动
- * 无限循环
- * 等
+ * 拷贝自{@link android.support.v4.view.ViewPager},通过修改少量代码实现如下扩展功能:
+ *      1:横向、纵向滚动
+ *      2:循环滚动
+ *      3:自动滚动并设置滚动方向
+ *      4:横向、纵向滚动并设置边缘效果颜色
+ *      5:通过调用{@link CoolViewPager#notifyDataSetChanged()}实时刷新界面
  * <p>
  * 一屏展示多页:{@link PagerAdapter#getPageWidth(int)}
  */
@@ -785,6 +787,22 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             mAdapter.notifyDataSetChanged();
             checkAndStartTimer();
         }
+    }
+
+    /**
+     * 获取当前CoolViewPager实例选中的页面,其在用户提供的原始Adapter中的实际位置,
+     * 在例如需要变更PageIndicator的情况下会用到
+     * @return
+     */
+    public int getRealCurrentItem(){
+        int realCurrentItem = 0;
+        if(this.mAdapter == null){
+        }else if(this.mAdapter instanceof PagerAdapterWrapper){
+            realCurrentItem = mCurItem;
+        }else{
+            realCurrentItem = ((LoopPagerAdapterWrapper)this.mAdapter).toRealPosition(mCurItem);
+        }
+        return realCurrentItem;
     }
 
     /**

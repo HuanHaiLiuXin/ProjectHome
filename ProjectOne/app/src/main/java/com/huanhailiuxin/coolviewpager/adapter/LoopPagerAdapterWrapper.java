@@ -80,7 +80,6 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
     public int getItemPosition(@NonNull Object object) {
         int mChildCount = getCount();
         if(mChildCount > 0){
-            mChildCount --;
             return POSITION_NONE;
         }
         return super.getItemPosition(object);

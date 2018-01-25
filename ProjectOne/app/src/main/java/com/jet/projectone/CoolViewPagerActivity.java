@@ -26,4 +26,8 @@ public class CoolViewPagerActivity extends BaseActivity {
     public void goCVP3(View view) {
         jump(CoolVP3Activity.class);
     }
+
+    public void goCVP4(View view) {
+        jump(CoolVP4Activity.class);
+    }
 }

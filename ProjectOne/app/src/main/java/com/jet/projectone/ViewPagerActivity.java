@@ -54,4 +54,8 @@ public class ViewPagerActivity extends AppCompatActivity {
     public void goClipChildren(View view) {
         jump(VpClipChildrenActivity.class);
     }
+
+    public void goMultiPage(View view) {
+        jump(VPMultiPageActivity.class);
+    }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-自定义属性,属性名称后缀拷贝自UltraViewPager(https://github.com/alibaba/UltraViewPager)
+自定义属性,属性名称后缀参考UltraViewPager(https://github.com/alibaba/UltraViewPager)
 -->
 <resources>
     <declare-styleable name="CoolViewPager">
@@ -17,9 +17,5 @@
         <attr name="cvp_infiniteloop" format="boolean" />
         <attr name="cvp_drawedgeeffect" format="boolean"/>
         <attr name="cvp_edgeeffectcolor" format="color"/>
-        <attr name="cvp_ratio" format="float" />
-        <attr name="cvp_multiscreen" format="boolean" />
-        <attr name="cvp_automeasure" format="boolean" />
-        <attr name="cvp_itemratio" format="float" />
     </declare-styleable>
 </resources>

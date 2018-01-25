@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.jet.projectone.CoolVP4Activity">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="横向滚动" />
+
+    <com.huanhailiuxin.coolviewpager.CoolViewPager
+        android:id="@+id/vp1"
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        app:cvp_scrollmode="horizontal"
+        app:cvp_infiniteloop="true"
+        app:cvp_autoscroll="true" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="纵向滚动" />
+    <com.huanhailiuxin.coolviewpager.CoolViewPager
+        android:id="@+id/vp2"
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        app:cvp_scrollmode="vertical"
+        app:cvp_infiniteloop="true"
+        app:cvp_autoscroll="true" />
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="切换PageTransformer"
+        android:onClick="changePageTransformer"
+        />
+</LinearLayout>

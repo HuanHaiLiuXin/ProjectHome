@@ -28,4 +28,11 @@
         android:textAllCaps="false"
         android:onClick="goCVP3"
         />
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="水平垂直滚动状态下,自定义页面切换效果"
+        android:textAllCaps="false"
+        android:onClick="goCVP4"
+        />
 </LinearLayout>
