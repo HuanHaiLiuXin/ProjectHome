@@ -49,7 +49,8 @@ public class UltraViewPagerAdapter extends PagerAdapter {
         void resetPosition();
     }
 
-    private static final int INFINITE_RATIO = 400;
+//    private static final int INFINITE_RATIO = 400;
+private static final int INFINITE_RATIO = 2;
 
     private PagerAdapter adapter;
     private boolean enableLoop;
@@ -263,6 +264,7 @@ public class UltraViewPagerAdapter extends PagerAdapter {
     }
 
     void setInfiniteRatio(int infiniteRatio) {
-        this.infiniteRatio = infiniteRatio;
+//        this.infiniteRatio = infiniteRatio;
+        this.infiniteRatio = 2;
     }
 }

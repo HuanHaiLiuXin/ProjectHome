@@ -2077,6 +2077,11 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         return true;
     }
 
+    @Override
+    public int getChildCount() {
+        return super.getChildCount();
+    }
+
     /**
      * This method will be invoked when the current page is scrolled, either as part
      * of a programmatically initiated smooth scroll or a user initiated touch scroll.

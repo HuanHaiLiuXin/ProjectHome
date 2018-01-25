@@ -29,6 +29,10 @@ public class CoolVP4Activity extends BaseActivity {
     void initViews() {
         vp1 = findViewById(R.id.vp1);
         vp2 = findViewById(R.id.vp2);
+        initData();
+    }
+
+    private void initData(){
         items1 = new ArrayList<>();
         items2 = new ArrayList<>();
         items1.add(createImageView(R.mipmap.img1));
@@ -45,12 +49,15 @@ public class CoolVP4Activity extends BaseActivity {
 
     private int currIndex = -1;
     private ViewPager.PageTransformer[] horizontals = new ViewPager.PageTransformer[]{
-
+            new com.huanhailiuxin.coolviewpager.transformer.RotateTransformer(),
+            new com.huanhailiuxin.coolviewpager.transformer.DepthPageTransformer()
     };
     private ViewPager.PageTransformer[] verticals = new ViewPager.PageTransformer[]{
-
+            new com.huanhailiuxin.coolviewpager.transformer.VerticalRotateTransformer(),
+            new com.huanhailiuxin.coolviewpager.transformer.DepthPageTransformer()
     };
     public void changePageTransformer(View view) {
+        initData();
         currIndex = (++currIndex)%horizontals.length;
         vp1.setPageTransformer(false,horizontals[currIndex]);
         vp2.setPageTransformer(false,verticals[currIndex]);

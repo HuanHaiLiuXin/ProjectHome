@@ -2,6 +2,7 @@ package com.huanhailiuxin.coolviewpager.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 
 public class LoopPagerAdapterWrapper extends PagerAdapter {
     private PagerAdapter mAdapter;
+    private SparseArray mViewArray = new SparseArray();
+
     public LoopPagerAdapterWrapper(PagerAdapter adapter){
         this.mAdapter = adapter;
     }
@@ -60,13 +63,23 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         int realPosition = toRealPosition(position);
-        return mAdapter.instantiateItem(container, realPosition);
+        Object item = mAdapter.instantiateItem(container, realPosition);
+        int childCount = container.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = container.getChildAt(i);
+            if (isViewFromObject(child, item)) {
+                mViewArray.put(realPosition, child);
+                break;
+            }
+        }
+        return item;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         /*int realPosition = toRealPosition(position);
-        mAdapter.destroyItem(container,realPosition,object);*/
+        mAdapter.destroyItem(container,realPosition,object);
+        mViewArray.remove(realPosition);*/
     }
 
     /**
@@ -83,5 +96,20 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
             return POSITION_NONE;
         }
         return super.getItemPosition(object);
+    }
+
+    public Object getPageFromVPChild(View child){
+        int key = indexOfValue(child);
+        if(key < 0){
+            return null;
+        }else{
+            return getViewAtRealPosition(key);
+        }
+    }
+    public int indexOfValue(Object value){
+        return mViewArray.indexOfValue(value);
+    }
+    public View getViewAtRealPosition(int position) {
+        return (View) mViewArray.get(position);
     }
 }
