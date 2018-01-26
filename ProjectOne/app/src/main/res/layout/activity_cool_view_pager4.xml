@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="600px"
         app:cvp_scrollmode="horizontal"
-        app:cvp_infiniteloop="true" />
+        app:cvp_infiniteloop="false" />
     <Space
         android:layout_width="match_parent"
         android:layout_height="16dp" />
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="600px"
         app:cvp_scrollmode="vertical"
-        app:cvp_infiniteloop="true" />
+        app:cvp_infiniteloop="false" />
     <android.support.v7.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -7,6 +7,8 @@ import android.view.View;
 import com.huanhailiuxin.coolviewpager.CoolViewPager;
 
 /**
+ * DefaultVerticalTransformer是CoolViewPager在垂直方向滚动的情况下默认的PageTransformer
+ *
  * 作者:幻海流心
  * GitHub:https://github.com/HuanHaiLiuXin
  * 邮箱:wall0920@163.com
