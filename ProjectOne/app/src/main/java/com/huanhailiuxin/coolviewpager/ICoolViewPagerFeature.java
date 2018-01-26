@@ -63,4 +63,12 @@ interface ICoolViewPagerFeature {
      * @param color
      */
     void setEdgeEffectColor(@ColorInt int color);
+
+    /**
+     * 设置是否自定义自动滑动耗时,并设置自动滑动耗时毫秒值
+     *
+     * @param ifSetScrollDuration
+     * @param scrollDuration
+     */
+    void setScrollDuration(boolean ifSetScrollDuration,int ... scrollDuration);
 }

@@ -415,10 +415,11 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     };
     private ScrollMode mScrollMode = ScrollMode.HORIZONTAL;
     private boolean mAutoScroll = false;
-    private int mIntervalInMillis = 3000;
+    private int mIntervalInMillis = 4000;
     private AutoScrollDirection mAutoScrollDirection = AutoScrollDirection.FORWARD;
     private TimerHandler timer;
     private boolean mInfiniteLoop = false;
+    private int mScrollDuration = 0;
     private boolean mDrawEdgeEffect = true;
     private @ColorInt
     int mEdgeEffectColor = -Integer.MAX_VALUE;
@@ -508,6 +509,21 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     }
 
     @Override
+    public void setScrollDuration(boolean ifSetScrollDuration, int... scrollDuration) {
+        if((!ifSetScrollDuration) || scrollDuration == null || scrollDuration.length <=0 || scrollDuration[0] <= 0){
+            this.mScrollDuration = 0;
+        }else{
+            this.mScrollDuration = scrollDuration[0];
+        }
+    }
+    public int getScrollDuration(){
+        return this.mScrollDuration;
+    }
+    public boolean isScrollDuration(){
+        return this.mScrollDuration > 0;
+    }
+
+    @Override
     public void setDrawEdgeEffect(boolean drawEdgeEffect) {
         this.mDrawEdgeEffect = drawEdgeEffect;
     }
@@ -580,6 +596,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             mIntervalInMillis = ta.getInteger(R.styleable.CoolViewPager_cvp_intervalinmillis,mIntervalInMillis);
             mAutoScrollDirection = AutoScrollDirection.getAutoScrollDirection(ta.getInt(R.styleable.CoolViewPager_cvp_autoscrolldirection,0));
             mInfiniteLoop = ta.getBoolean(R.styleable.CoolViewPager_cvp_infiniteloop,mInfiniteLoop);
+            mScrollDuration = ta.getInteger(R.styleable.CoolViewPager_cvp_scrollduration,mScrollDuration);
             mDrawEdgeEffect = ta.getBoolean(R.styleable.CoolViewPager_cvp_drawedgeeffect, mDrawEdgeEffect);
             mEdgeEffectColor = ta.getColor(R.styleable.CoolViewPager_cvp_edgeeffectcolor, mEdgeEffectColor);
             ta.recycle();
@@ -1228,7 +1245,13 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
             final float pageDelta = (float) Math.abs(dx) / (pageWidth + mPageMargin);
             duration = (int) ((pageDelta + 1) * 100);
         }
-        duration = Math.min(duration, MAX_SETTLE_DURATION);
+        if(this.mScrollDuration > 0){
+            //如果设置过自动滑动耗时,则使用mScrollDuration
+            duration = this.mScrollDuration;
+        }else{
+            //未设置过,则采用原始逻辑获取duration
+            duration = Math.min(duration, MAX_SETTLE_DURATION);
+        }
 
         // Reset the "scroll started" flag. It will be flipped to true in all places
         // where we call computeScrollOffset().
@@ -3540,7 +3563,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
                 if(state == SCROLL_STATE_IDLE && (position == 0 || position == mAdapter.getCount() - 1)){
                     int realPosition = ((LoopPagerAdapterWrapper)mAdapter).toRealPosition(position);
                     int realItem = ((LoopPagerAdapterWrapper)mAdapter).toInnerPosition(realPosition);
-                    Log.e("Jet","onPageScrollStateChanged:setCurrentItem:"+realItem);
+//                    Log.e("Jet","onPageScrollStateChanged:setCurrentItem:"+realItem);
                     setCurrentItem(realItem,false);
                     if(mScrollMode == ScrollMode.VERTICAL){
                         Object item = mAdapter.instantiateItem(CoolViewPager.this,realItem);

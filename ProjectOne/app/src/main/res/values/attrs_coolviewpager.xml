@@ -15,6 +15,7 @@
             <enum name="backward" value="1" />
         </attr>
         <attr name="cvp_infiniteloop" format="boolean" />
+        <attr name="cvp_scrollduration" format="integer"/>
         <attr name="cvp_drawedgeeffect" format="boolean"/>
         <attr name="cvp_edgeeffectcolor" format="color"/>
     </declare-styleable>
