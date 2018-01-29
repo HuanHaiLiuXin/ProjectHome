@@ -415,7 +415,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     };
     private ScrollMode mScrollMode = ScrollMode.HORIZONTAL;
     private boolean mAutoScroll = false;
-    private int mIntervalInMillis = 4000;
+    private int mIntervalInMillis = 2000;
     private AutoScrollDirection mAutoScrollDirection = AutoScrollDirection.FORWARD;
     private TimerHandler timer;
     private boolean mInfiniteLoop = false;

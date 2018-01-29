@@ -17,7 +17,7 @@ import android.view.View;
 public class FragmentRotateTransformer implements ViewPager.PageTransformer {
     private static final float MIN_SCALE = 0.65F;
     private float degree;
-    private onRotateListener onRotateListener;
+    private OnRotateListener onRotateListener;
 
     @Override
     public void transformPage(@NonNull View page, float position) {
@@ -65,16 +65,11 @@ public class FragmentRotateTransformer implements ViewPager.PageTransformer {
         return position;
     }
 
-    public FragmentRotateTransformer.onRotateListener getOnRotateListener() {
+    public OnRotateListener getOnRotateListener() {
         return onRotateListener;
     }
 
-    public void setOnRotateListener(FragmentRotateTransformer.onRotateListener onRotateListener) {
+    public void setOnRotateListener(OnRotateListener onRotateListener) {
         this.onRotateListener = onRotateListener;
-    }
-
-    public interface onRotateListener{
-        void onRotateNotify();
-        void onRotateReset();
     }
 }

@@ -5,13 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.jet.projectone.transformer.FragmentRotateTransformer;
+import com.jet.projectone.transformer.OnRotateListener;
 
 import java.util.ArrayList;
 
@@ -52,7 +51,7 @@ public class FragmentRotateTransformerActivity extends BaseActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragments,titles);
         vp.setAdapter(adapter);
         fragmentRotateTransformer = new FragmentRotateTransformer();
-        fragmentRotateTransformer.setOnRotateListener(new FragmentRotateTransformer.onRotateListener() {
+        fragmentRotateTransformer.setOnRotateListener(new OnRotateListener() {
             @Override
             public void onRotateNotify() {
                 for (BaseFragment fragment:fragments){
@@ -73,6 +72,7 @@ public class FragmentRotateTransformerActivity extends BaseActivity {
                 return vp.dispatchTouchEvent(event);
             }
         });
+        vp.setPageTransformer(true,fragmentRotateTransformer);
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter{
