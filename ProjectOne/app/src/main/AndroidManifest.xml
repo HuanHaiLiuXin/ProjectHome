@@ -42,6 +42,7 @@
         <activity android:name=".VpClipChildrenActivity" />
         <activity android:name=".CoolViewPagerActivity" />
         <activity android:name=".VPMultiPageActivity" />
+        <activity android:name=".FragmentRotateTransformerActivity"></activity>
     </application>
 
 </manifest>

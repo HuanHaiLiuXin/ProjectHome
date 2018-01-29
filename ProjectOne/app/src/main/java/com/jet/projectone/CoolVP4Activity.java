@@ -32,6 +32,7 @@ public class CoolVP4Activity extends BaseActivity {
         initData();
     }
 
+    
     private void initData(){
         items1 = new ArrayList<>();
         items2 = new ArrayList<>();

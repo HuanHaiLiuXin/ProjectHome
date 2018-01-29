@@ -68,6 +68,13 @@
         <android.support.v7.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="goFragmentRotate"
+            android:text="ViewPagewr Fragment翻转"
+            android:textAllCaps="false"
+            />
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:onClick="goCustomViewPager"
             android:text="自定义ViewPager"
             android:textAllCaps="false"

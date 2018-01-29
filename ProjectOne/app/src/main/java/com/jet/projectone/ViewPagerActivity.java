@@ -58,4 +58,8 @@ public class ViewPagerActivity extends AppCompatActivity {
     public void goMultiPage(View view) {
         jump(VPMultiPageActivity.class);
     }
+
+    public void goFragmentRotate(View view) {
+        jump(FragmentRotateTransformerActivity.class);
+    }
 }
