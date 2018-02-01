@@ -26,8 +26,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initViews();
     }
-    abstract int getContentView();
-    abstract void initViews();
+    public abstract int getContentView();
+    public abstract void initViews();
     public void jump(Class clazz){
         startActivity(new Intent(BaseActivity.this,clazz));
     }

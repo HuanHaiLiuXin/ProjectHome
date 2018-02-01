@@ -24,12 +24,12 @@ public class CoolVP2Activity extends BaseActivity {
     private ViewPagerAdapter adapter2;
 
     @Override
-    int getContentView() {
+    public int getContentView() {
         return R.layout.activity_cool_view_pager2;
     }
 
     @Override
-    void initViews() {
+    public void initViews() {
         vp1 = findViewById(R.id.vp1);
         vp2 = findViewById(R.id.vp2);
         items1 = new ArrayList<>();

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CoolVP3Activity extends BaseActivity {
     @Override
-    int getContentView() {
+    public int getContentView() {
         return R.layout.activity_cool_view_pager3;
     }
 
@@ -28,7 +28,7 @@ public class CoolVP3Activity extends BaseActivity {
     private List<View> items12 = new ArrayList<>();
     private List<View> items2 = new ArrayList<>();
     @Override
-    void initViews() {
+    public void initViews() {
         vp11 = findViewById(R.id.vp11);
         vp12 = findViewById(R.id.vp12);
         vp2 = findViewById(R.id.vp2);

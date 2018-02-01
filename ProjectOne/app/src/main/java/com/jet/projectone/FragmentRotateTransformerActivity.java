@@ -23,12 +23,12 @@ public class FragmentRotateTransformerActivity extends BaseActivity {
     private FragmentRotateTransformer fragmentRotateTransformer;
 
     @Override
-    int getContentView() {
+    public int getContentView() {
         return R.layout.activity_fragment_rotate_transformer;
     }
 
     @Override
-    void initViews() {
+    public void initViews() {
         rl = findViewById(R.id.rl);
         vp = findViewById(R.id.vp);
         vp.setOffscreenPageLimit(7);

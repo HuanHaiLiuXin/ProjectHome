@@ -30,6 +30,9 @@
             <!-- <action android:name="cat.ereza.customactivityoncrash.ERROR" /> -->
             <!-- </intent-filter> -->
         </activity>
+        <activity android:name="com.jet.projecttwo.ScrollerActivity"/>
+        <activity android:name="com.jet.projecttwo.SC1Activity"/>
+        <activity android:name="com.jet.projecttwo.ScrollerViewPagerActivity"/>
         <activity android:name=".ViewPagerBackgroundActivity" />
         <activity android:name=".LoopViewPagerActivity" />
         <activity android:name=".VerticalViewPagerOriActivity" />

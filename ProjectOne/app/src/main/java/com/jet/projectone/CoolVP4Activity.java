@@ -21,12 +21,12 @@ public class CoolVP4Activity extends BaseActivity {
     private List<View> items1,items2;
 
     @Override
-    int getContentView() {
+    public int getContentView() {
         return R.layout.activity_cool_view_pager4;
     }
 
     @Override
-    void initViews() {
+    public void initViews() {
         vp1 = findViewById(R.id.vp1);
         vp2 = findViewById(R.id.vp2);
         initData();

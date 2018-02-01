@@ -30,12 +30,12 @@ public class VPMultiPageActivity extends BaseActivity {
     private List<View> items2;
 
     @Override
-    int getContentView() {
+    public int getContentView() {
         return R.layout.activity_vp_multipage;
     }
 
     @Override
-    void initViews() {
+    public void initViews() {
         vp = findViewById(R.id.vp);
         items1 = new ArrayList<>();
         items1.add(createMarginView(R.mipmap.img1));

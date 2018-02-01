@@ -7,12 +7,12 @@ import android.view.View;
 public class CoolViewPagerActivity extends BaseActivity {
 
     @Override
-    int getContentView() {
+    public int getContentView() {
         return R.layout.activity_cool_view_pager;
     }
 
     @Override
-    void initViews() {
+    public void initViews() {
     }
 
     public void goCVP1(View view) {

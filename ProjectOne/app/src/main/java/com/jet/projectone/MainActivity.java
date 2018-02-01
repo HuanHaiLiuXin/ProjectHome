@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.jet.projecttwo.ScrollerActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -23,5 +25,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void goViewPager(View view) {
         jump(ViewPagerActivity.class);
+    }
+
+    public void goScroller(View view) {
+        jump(ScrollerActivity.class);
     }
 }
