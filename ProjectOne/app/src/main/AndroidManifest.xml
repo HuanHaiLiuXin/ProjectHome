@@ -33,6 +33,9 @@
         <activity android:name="com.jet.projecttwo.ScrollerActivity"/>
         <activity android:name="com.jet.projecttwo.SC1Activity"/>
         <activity android:name="com.jet.projecttwo.ScrollerViewPagerActivity"/>
+        <activity android:name="com.jet.projectthree.CameraMatrixActivity"/>
+        <activity android:name="com.jet.projectthree.CameraTestViewActivity"/>
+        <activity android:name="com.jet.projectthree.Rotate3dAnimationActivity"/>
         <activity android:name=".ViewPagerBackgroundActivity" />
         <activity android:name=".LoopViewPagerActivity" />
         <activity android:name=".VerticalViewPagerOriActivity" />

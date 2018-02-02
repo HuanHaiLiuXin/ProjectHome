@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.jet.projectthree.CameraMatrixActivity;
 import com.jet.projecttwo.ScrollerActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,5 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void goScroller(View view) {
         jump(ScrollerActivity.class);
+    }
+
+    public void goCameraMatrix(View view) {
+        jump(CameraMatrixActivity.class);
     }
 }

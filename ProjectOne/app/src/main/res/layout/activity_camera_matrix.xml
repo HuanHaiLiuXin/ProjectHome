@@ -4,36 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jet.projectone.MainActivity"
-    android:fillViewport="true"
-    >
-
+    tools:context="com.jet.projectthree.CameraMatrixActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         >
         <android.support.v7.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ViewPager相关"
             android:textAllCaps="false"
-            android:onClick="goViewPager"
+            android:text="CameraTestView"
+            android:onClick="goCameraTestView"
             />
         <android.support.v7.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scroller相关"
             android:textAllCaps="false"
-            android:onClick="goScroller"
-            />
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Camera Matrix相关"
-            android:textAllCaps="false"
-            android:onClick="goCameraMatrix"
+            android:text="RotateAnimation"
+            android:onClick="goRotateAnimation"
             />
     </LinearLayout>
-
 </ScrollView>
