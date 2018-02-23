@@ -1,4 +1,4 @@
-package com.jet.project3;
+package com.jet.cameraandmatrix;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;

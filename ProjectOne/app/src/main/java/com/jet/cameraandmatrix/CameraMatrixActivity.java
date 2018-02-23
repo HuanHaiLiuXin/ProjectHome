@@ -1,4 +1,4 @@
-package com.jet.project3;
+package com.jet.cameraandmatrix;
 
 import android.view.View;
 
@@ -33,5 +33,9 @@ public class CameraMatrixActivity extends BaseActivity {
 
     public void goCustom3D(View view) {
         jump(Custom3DViewActivity.class);
+    }
+
+    public void goCopyCustom3D(View view) {
+        jump(CopyCustom3DViewActivity.class);
     }
 }

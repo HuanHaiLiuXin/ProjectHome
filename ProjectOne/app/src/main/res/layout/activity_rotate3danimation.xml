@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
-    tools:context="com.jet.project3.Rotate3dAnimationActivity">
+    tools:context="com.jet.cameraandmatrix.Rotate3dAnimationActivity">
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"

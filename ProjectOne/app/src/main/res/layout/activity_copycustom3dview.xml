@@ -6,7 +6,7 @@
     android:gravity="center"
     >
 
-    <com.jet.cameraandmatrix.Custom3DView
+    <com.jet.cameraandmatrix.CopyCustom3DView
         android:layout_width="150dp"
         android:layout_height="150dp">
         <ImageView
@@ -29,5 +29,5 @@
             android:layout_width="match_parent"
             android:background="@mipmap/img4"
             />
-    </com.jet.cameraandmatrix.Custom3DView>
+    </com.jet.cameraandmatrix.CopyCustom3DView>
 </LinearLayout>

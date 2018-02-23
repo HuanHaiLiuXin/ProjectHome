@@ -3583,6 +3583,19 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     };
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (timer != null) {
+            final int action = ev.getAction();
+            if (action == MotionEvent.ACTION_DOWN) {
+                stopTimer();
+            }
+            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                checkAndStartTimer();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mFirstLayout = true;
@@ -3616,18 +3629,5 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
     public void onFinishTemporaryDetach() {
         super.onFinishTemporaryDetach();
         checkAndStartTimer();
-    }
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (timer != null) {
-            final int action = ev.getAction();
-            if (action == MotionEvent.ACTION_DOWN) {
-                stopTimer();
-            }
-            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-                checkAndStartTimer();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 }

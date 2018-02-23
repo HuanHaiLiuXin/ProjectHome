@@ -1,4 +1,4 @@
-package com.jet.project3;
+package com.jet.cameraandmatrix;
 
 import com.jet.project1.BaseActivity;
 import com.jet.project1.R;

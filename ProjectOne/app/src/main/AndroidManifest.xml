@@ -37,10 +37,11 @@
         <activity android:name="com.jet.project2.ScrollerActivity"/>
         <activity android:name="com.jet.project2.SC1Activity"/>
         <activity android:name="com.jet.project2.ScrollerViewPagerActivity"/>
-        <activity android:name="com.jet.project3.CameraMatrixActivity"/>
-        <activity android:name="com.jet.project3.CameraTestViewActivity"/>
-        <activity android:name="com.jet.project3.Rotate3dAnimationActivity"/>
-        <activity android:name="com.jet.project3.Custom3DViewActivity"/>
+        <activity android:name="com.jet.cameraandmatrix.CameraMatrixActivity"/>
+        <activity android:name="com.jet.cameraandmatrix.CameraTestViewActivity"/>
+        <activity android:name="com.jet.cameraandmatrix.Rotate3dAnimationActivity"/>
+        <activity android:name="com.jet.cameraandmatrix.Custom3DViewActivity"/>
+        <activity android:name="com.jet.cameraandmatrix.CopyCustom3DViewActivity"/>
         <activity android:name="com.jet.project1.ViewPagerBackgroundActivity" />
         <activity android:name="com.jet.project1.LoopViewPagerActivity" />
         <activity android:name="com.jet.project1.VerticalViewPagerOriActivity" />

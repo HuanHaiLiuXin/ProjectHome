@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.jet.project3.CameraMatrixActivity;
+import com.jet.cameraandmatrix.CameraMatrixActivity;
 import com.jet.project2.ScrollerActivity;
 import com.jet.project4.MeasureSpecActivity;
 
