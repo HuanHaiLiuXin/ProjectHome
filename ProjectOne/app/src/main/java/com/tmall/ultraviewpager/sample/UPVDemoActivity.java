@@ -31,7 +31,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.jet.projectone.R;
+import com.jet.project1.R;
 
 public class UPVDemoActivity extends Activity {
     private Intent intent;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.jet.projectone.CoolVP1Activity"
+    tools:context="com.jet.project1.CoolVP1Activity"
     android:padding="16dp"
     >
 

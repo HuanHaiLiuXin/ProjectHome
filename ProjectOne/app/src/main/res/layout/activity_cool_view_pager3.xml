@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.jet.projectone.CoolVP3Activity"
+    tools:context="com.jet.project1.CoolVP3Activity"
     android:padding="16dp"
     >
     <android.support.v7.widget.AppCompatTextView

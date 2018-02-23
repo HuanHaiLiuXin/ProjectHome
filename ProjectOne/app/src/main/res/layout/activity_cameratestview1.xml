@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jet.projectthree.CameraTestViewActivity"
+    tools:context="com.jet.project3.CameraTestViewActivity"
     android:padding="16dp"
     android:orientation="vertical"
     android:gravity="center"
     >
-    <com.jet.projectthree.CameraTestView
+    <com.jet.project3.CameraTestView
         android:layout_width="320dp"
         android:layout_height="200dp" />
 </LinearLayout>

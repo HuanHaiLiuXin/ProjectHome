@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jet.projectone.MainActivity"
+    tools:context="com.jet.project1.MainActivity"
     android:fillViewport="true"
     >
 
@@ -33,6 +33,13 @@
             android:text="Camera Matrix相关"
             android:textAllCaps="false"
             android:onClick="goCameraMatrix"
+            />
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MeasureSpec相关"
+            android:textAllCaps="false"
+            android:onClick="goMeasureSpec"
             />
     </LinearLayout>
 

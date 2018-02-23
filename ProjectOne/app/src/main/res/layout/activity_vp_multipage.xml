@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="com.jet.projectone.VPMultiPageActivity">
+    tools:context="com.jet.project1.VPMultiPageActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"

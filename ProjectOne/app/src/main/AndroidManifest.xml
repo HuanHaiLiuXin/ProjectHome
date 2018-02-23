@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jet.projectone">
+    package="com.jet.project1">
 
     <application
-        android:name=".App"
+        android:name="com.jet.project1.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.jet.project1.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewPagerTransformerActivity" />
-        <activity android:name=".ViewPagerActivity" />
-        <activity android:name=".ViewPagerAdapterActivity" />
+        <activity android:name="com.jet.project1.ViewPagerTransformerActivity" />
+        <activity android:name="com.jet.project1.ViewPagerActivity" />
+        <activity android:name="com.jet.project1.ViewPagerAdapterActivity" />
         <activity
-            android:name=".CustomErrorActivity"
+            android:name="com.jet.project1.CustomErrorActivity"
             android:label="@string/error_title"
             android:process=":error_activity">
 
@@ -30,25 +30,30 @@
             <!-- <action android:name="cat.ereza.customactivityoncrash.ERROR" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.jet.projecttwo.ScrollerActivity"/>
-        <activity android:name="com.jet.projecttwo.SC1Activity"/>
-        <activity android:name="com.jet.projecttwo.ScrollerViewPagerActivity"/>
-        <activity android:name="com.jet.projectthree.CameraMatrixActivity"/>
-        <activity android:name="com.jet.projectthree.CameraTestViewActivity"/>
-        <activity android:name="com.jet.projectthree.Rotate3dAnimationActivity"/>
-        <activity android:name=".ViewPagerBackgroundActivity" />
-        <activity android:name=".LoopViewPagerActivity" />
-        <activity android:name=".VerticalViewPagerOriActivity" />
+        <activity android:name="com.jet.project4.MeasureSpecActivity"/>
+        <activity android:name="com.jet.project4.MeasureSpec1Activity"/>
+        <activity android:name="com.jet.project4.MeasureSpec2Activity"/>
+        <activity android:name="com.jet.project4.MeasureSpec3Activity"/>
+        <activity android:name="com.jet.project2.ScrollerActivity"/>
+        <activity android:name="com.jet.project2.SC1Activity"/>
+        <activity android:name="com.jet.project2.ScrollerViewPagerActivity"/>
+        <activity android:name="com.jet.project3.CameraMatrixActivity"/>
+        <activity android:name="com.jet.project3.CameraTestViewActivity"/>
+        <activity android:name="com.jet.project3.Rotate3dAnimationActivity"/>
+        <activity android:name="com.jet.project3.Custom3DViewActivity"/>
+        <activity android:name="com.jet.project1.ViewPagerBackgroundActivity" />
+        <activity android:name="com.jet.project1.LoopViewPagerActivity" />
+        <activity android:name="com.jet.project1.VerticalViewPagerOriActivity" />
         <activity android:name="com.tmall.ultraviewpager.sample.UPVDemoActivity" />
         <activity android:name="com.tmall.ultraviewpager.sample.PagerActivity" />
-        <activity android:name=".CoolVP1Activity" />
-        <activity android:name=".CoolVP2Activity" />
-        <activity android:name=".CoolVP3Activity" />
-        <activity android:name=".CoolVP4Activity" />
-        <activity android:name=".VpClipChildrenActivity" />
-        <activity android:name=".CoolViewPagerActivity" />
-        <activity android:name=".VPMultiPageActivity" />
-        <activity android:name=".FragmentRotateTransformerActivity"></activity>
+        <activity android:name="com.jet.project1.CoolVP1Activity" />
+        <activity android:name="com.jet.project1.CoolVP2Activity" />
+        <activity android:name="com.jet.project1.CoolVP3Activity" />
+        <activity android:name="com.jet.project1.CoolVP4Activity" />
+        <activity android:name="com.jet.project1.VpClipChildrenActivity" />
+        <activity android:name="com.jet.project1.CoolViewPagerActivity" />
+        <activity android:name="com.jet.project1.VPMultiPageActivity" />
+        <activity android:name="com.jet.project1.FragmentRotateTransformerActivity"></activity>
     </application>
 
 </manifest>

@@ -46,7 +46,7 @@ import android.widget.Scroller;
 import com.huanhailiuxin.coolviewpager.adapter.LoopPagerAdapterWrapper;
 import com.huanhailiuxin.coolviewpager.adapter.PagerAdapterWrapper;
 import com.huanhailiuxin.coolviewpager.transformer.DefaultVerticalTransformer;
-import com.jet.projectone.R;
+import com.jet.project1.R;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

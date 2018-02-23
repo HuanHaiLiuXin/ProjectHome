@@ -43,7 +43,7 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
-import com.jet.projectone.R;
+import com.jet.project1.R;
 import com.tmall.ultraviewpager.UltraViewPager;
 import com.tmall.ultraviewpager.transformer.UltraDepthScaleTransformer;
 import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;

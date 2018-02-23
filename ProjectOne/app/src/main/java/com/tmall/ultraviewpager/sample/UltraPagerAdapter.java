@@ -34,7 +34,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jet.projectone.R;
+import com.jet.project1.R;
 
 /**
  * Created by mikeafc on 15/11/26.

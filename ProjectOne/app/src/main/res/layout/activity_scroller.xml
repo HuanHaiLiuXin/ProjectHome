@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jet.projecttwo.ScrollerActivity"
+    tools:context="com.jet.project2.ScrollerActivity"
     android:fillViewport="true"
     >
 
