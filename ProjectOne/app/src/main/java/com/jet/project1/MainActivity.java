@@ -8,8 +8,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.jet.cameraandmatrix.CameraMatrixActivity;
-import com.jet.project2.ScrollerActivity;
-import com.jet.project4.MeasureSpecActivity;
+import com.jet.customanimation.CustomAnimationActivity;
+import com.jet.scroller.ScrollerActivity;
+import com.jet.measurespec.MeasureSpecActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,5 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void goMeasureSpec(View view) {
         jump(MeasureSpecActivity.class);
+    }
+
+    public void goCustomAnimation(View view) {
+        jump(CustomAnimationActivity.class);
     }
 }

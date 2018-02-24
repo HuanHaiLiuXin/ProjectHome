@@ -30,13 +30,13 @@
             <!-- <action android:name="cat.ereza.customactivityoncrash.ERROR" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.jet.project4.MeasureSpecActivity"/>
-        <activity android:name="com.jet.project4.MeasureSpec1Activity"/>
-        <activity android:name="com.jet.project4.MeasureSpec2Activity"/>
-        <activity android:name="com.jet.project4.MeasureSpec3Activity"/>
-        <activity android:name="com.jet.project2.ScrollerActivity"/>
-        <activity android:name="com.jet.project2.SC1Activity"/>
-        <activity android:name="com.jet.project2.ScrollerViewPagerActivity"/>
+        <activity android:name="com.jet.measurespec.MeasureSpecActivity"/>
+        <activity android:name="com.jet.measurespec.MeasureSpec1Activity"/>
+        <activity android:name="com.jet.measurespec.MeasureSpec2Activity"/>
+        <activity android:name="com.jet.measurespec.MeasureSpec3Activity"/>
+        <activity android:name="com.jet.scroller.ScrollerActivity"/>
+        <activity android:name="com.jet.scroller.SC1Activity"/>
+        <activity android:name="com.jet.scroller.ScrollerViewPagerActivity"/>
         <activity android:name="com.jet.cameraandmatrix.CameraMatrixActivity"/>
         <activity android:name="com.jet.cameraandmatrix.CameraTestViewActivity"/>
         <activity android:name="com.jet.cameraandmatrix.Rotate3dAnimationActivity"/>
@@ -55,6 +55,10 @@
         <activity android:name="com.jet.project1.CoolViewPagerActivity" />
         <activity android:name="com.jet.project1.VPMultiPageActivity" />
         <activity android:name="com.jet.project1.FragmentRotateTransformerActivity"></activity>
+        <activity android:name="com.jet.customanimation.CustomAnimationActivity" />
+        <activity android:name="com.jet.customanimation.CopyFlipAnimationActivity" />
+        <activity android:name="com.jet.customanimation.MyCustomAnimationActivity" />
+        <activity android:name="com.mrzk.flipcards.MainActivity" />
     </application>
 
 </manifest>

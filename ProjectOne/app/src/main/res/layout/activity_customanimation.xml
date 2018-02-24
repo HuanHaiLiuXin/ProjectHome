@@ -4,50 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jet.project1.MainActivity"
-    android:fillViewport="true"
-    >
-
+    tools:context="com.jet.customanimation.CustomAnimationActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         >
         <android.support.v7.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ViewPager相关"
             android:textAllCaps="false"
-            android:onClick="goViewPager"
+            android:text="FlipCards 3D 自定义Animation"
+            android:onClick="goFlipCards3D"
             />
         <android.support.v7.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scroller相关"
             android:textAllCaps="false"
-            android:onClick="goScroller"
+            android:text="拷贝 FlipCards 3D Animation"
+            android:onClick="goCopyFlip3D"
             />
         <android.support.v7.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Camera Matrix相关"
             android:textAllCaps="false"
-            android:onClick="goCameraMatrix"
-            />
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MeasureSpec相关"
-            android:textAllCaps="false"
-            android:onClick="goMeasureSpec"
-            />
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="自定义Animation相关"
-            android:textAllCaps="false"
-            android:onClick="goCustomAnimation"
+            android:text="自定义Animation"
+            android:onClick="goMyCustomAnimation"
             />
     </LinearLayout>
-
 </ScrollView>

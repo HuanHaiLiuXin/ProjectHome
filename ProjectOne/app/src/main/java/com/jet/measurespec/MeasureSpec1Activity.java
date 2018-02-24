@@ -1,4 +1,4 @@
-package com.jet.project4;
+package com.jet.measurespec;
 
 import com.jet.project1.BaseActivity;
 import com.jet.project1.R;

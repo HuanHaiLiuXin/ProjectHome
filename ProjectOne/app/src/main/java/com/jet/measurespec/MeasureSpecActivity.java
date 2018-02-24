@@ -1,4 +1,4 @@
-package com.jet.project4;
+package com.jet.measurespec;
 
 import android.view.View;
 

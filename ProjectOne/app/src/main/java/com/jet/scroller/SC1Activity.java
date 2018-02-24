@@ -1,4 +1,4 @@
-package com.jet.project2;
+package com.jet.scroller;
 
 import android.view.View;
 import android.widget.LinearLayout;

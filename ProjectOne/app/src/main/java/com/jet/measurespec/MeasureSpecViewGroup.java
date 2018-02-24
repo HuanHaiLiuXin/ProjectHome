@@ -1,4 +1,4 @@
-package com.jet.project4;
+package com.jet.measurespec;
 
 import android.content.Context;
 import android.util.AttributeSet;

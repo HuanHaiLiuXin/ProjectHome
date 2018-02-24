@@ -1,4 +1,4 @@
-package com.jet.project4;
+package com.jet.measurespec;
 
 import com.jet.project1.BaseActivity;
 import com.jet.project1.R;
@@ -10,10 +10,10 @@ import com.jet.project1.R;
  * 2018/2/8 15:49
  */
 
-public class MeasureSpec2Activity extends BaseActivity {
+public class MeasureSpec3Activity extends BaseActivity {
     @Override
     public int getContentView() {
-        return R.layout.activity_measurespec2;
+        return R.layout.activity_measurespec3;
     }
 
     @Override
