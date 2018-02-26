@@ -55,10 +55,15 @@
         <activity android:name="com.jet.project1.CoolViewPagerActivity" />
         <activity android:name="com.jet.project1.VPMultiPageActivity" />
         <activity android:name="com.jet.project1.FragmentRotateTransformerActivity"></activity>
+        <activity android:name="com.jet.bitmap.BitmapActivity" />
+        <activity android:name="com.jet.bitmap.BitmapSetPixelsActivity" />
         <activity android:name="com.jet.customanimation.CustomAnimationActivity" />
         <activity android:name="com.jet.customanimation.CopyFlipAnimationActivity" />
         <activity android:name="com.jet.customanimation.MyCustomAnimationActivity" />
         <activity android:name="com.mrzk.flipcards.MainActivity" />
+        <activity android:name="com.open.turnpage.MainActivity" />
+        <activity android:name="com.open.turnpage.TuruPageActivity" />
+        <activity android:name="com.jet.res.ResActivity"/>
     </application>
 
 </manifest>

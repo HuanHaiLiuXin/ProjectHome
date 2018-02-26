@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.jet.bitmap.BitmapActivity;
 import com.jet.cameraandmatrix.CameraMatrixActivity;
 import com.jet.customanimation.CustomAnimationActivity;
+import com.jet.res.ResActivity;
 import com.jet.scroller.ScrollerActivity;
 import com.jet.measurespec.MeasureSpecActivity;
 
@@ -44,5 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void goCustomAnimation(View view) {
         jump(CustomAnimationActivity.class);
+    }
+
+    public void goTurnPage(View view) {
+        jump(com.open.turnpage.MainActivity.class);
+    }
+
+    public void goBitmap(View view) {
+        jump(BitmapActivity.class);
+    }
+
+    public void goRes(View view) {
+        jump(ResActivity.class);
     }
 }

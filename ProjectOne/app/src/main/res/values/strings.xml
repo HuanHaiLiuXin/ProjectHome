@@ -34,14 +34,30 @@
         <item>Icon</item>
         <item>Count</item>
     </string-array>
+    <string name="addResStrStr">addResStr2</string>
+    <string name="addResStr">addResStr1</string>
+    <string name="restest7">字符串资源7</string>
+    <string name="restest8">字符串资源8</string>
     <string-array name="indicator_gravity_hor">
         <item>Left</item>
         <item>Right</item>
         <item>Center</item>
     </string-array>
+    <string name="restest3">字符串资源3</string>
+    <string name="restest4">字符串资源4</string>
     <string-array name="indicator_gravity_ver">
         <item>Top</item>
         <item>Bottom</item>
         <item>Center</item>
     </string-array>
+
+    <!--android-turnpage-->
+    <string name="btn_text_1">百叶窗效果</string>
+    <string name="btn_text_2">小黑块效果</string>
+    <string name="btn_text_3">平移效果</string>
+
+    <string name="restest1">字符串资源1</string>
+    <string name="restest2">字符串资源2</string>
+    <string name="restest5">字符串资源5</string>
+    <string name="restest6">字符串资源6</string>
 </resources>
