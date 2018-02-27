@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:id="@+id/root"
+        >
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/qq"
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@mipmap/qq_music"
+            android:background="@color/colorAccent"
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="狼牙月伊人憔悴,我举杯饮尽了风雪"
+            android:textColor="@android:color/black"
+            />
+    </LinearLayout>
+</ScrollView>

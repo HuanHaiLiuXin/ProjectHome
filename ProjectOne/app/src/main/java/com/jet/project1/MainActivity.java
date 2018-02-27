@@ -9,7 +9,9 @@ import android.view.WindowManager;
 
 import com.jet.bitmap.BitmapActivity;
 import com.jet.cameraandmatrix.CameraMatrixActivity;
+import com.jet.canvas.CanvasActivity;
 import com.jet.customanimation.CustomAnimationActivity;
+import com.jet.particle.ParticleActivity;
 import com.jet.res.ResActivity;
 import com.jet.scroller.ScrollerActivity;
 import com.jet.measurespec.MeasureSpecActivity;
@@ -58,5 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void goRes(View view) {
         jump(ResActivity.class);
+    }
+
+    public void goCanvas(View view) {
+        jump(CanvasActivity.class);
+    }
+
+    public void goParticle(View view) {
+        jump(ParticleActivity.class);
     }
 }

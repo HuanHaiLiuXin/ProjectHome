@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    tools:context="com.jet.canvas.CanvasSetBitmapActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <com.jet.canvas.CanvasSetBitmapView
+            android:id="@+id/cv"
+            android:layout_width="300dp"
+            android:layout_height="200dp" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv"
+            android:layout_width="300dp"
+            android:layout_height="200dp" />
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="展示当前的Bitmap"
+            android:onClick="showCurrCanvasBitmap"
+            />
+    </LinearLayout>
+</ScrollView>

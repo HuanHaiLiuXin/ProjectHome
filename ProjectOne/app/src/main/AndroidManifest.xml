@@ -64,6 +64,10 @@
         <activity android:name="com.open.turnpage.MainActivity" />
         <activity android:name="com.open.turnpage.TuruPageActivity" />
         <activity android:name="com.jet.res.ResActivity"/>
+        <activity android:name="com.jet.canvas.CanvasActivity"/>
+        <activity android:name="com.jet.canvas.CanvasSetBitmapActivity"/>
+        <activity android:name="com.jet.particle.ParticleActivity"/>
+        <activity android:name="com.jet.particle.AZExplosionActivity"/>
     </application>
 
 </manifest>

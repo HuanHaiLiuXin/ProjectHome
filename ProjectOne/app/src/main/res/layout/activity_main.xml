@@ -69,7 +69,20 @@
             android:textAllCaps="false"
             android:onClick="goTurnPage"
             />
-
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Canvas相关方法"
+            android:textAllCaps="false"
+            android:onClick="goCanvas"
+            />
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="粒子爆炸"
+            android:textAllCaps="false"
+            android:onClick="goParticle"
+            />
     </LinearLayout>
 
 </ScrollView>
