@@ -17,5 +17,12 @@
             android:text="Copy AZExplosion效果"
             android:onClick="goAZExplosion"
             />
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="自己敲一遍 例子爆炸效果"
+            android:onClick="goCopyParticle"
+            />
     </LinearLayout>
 </ScrollView>

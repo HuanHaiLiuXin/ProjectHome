@@ -68,6 +68,7 @@
         <activity android:name="com.jet.canvas.CanvasSetBitmapActivity"/>
         <activity android:name="com.jet.particle.ParticleActivity"/>
         <activity android:name="com.jet.particle.AZExplosionActivity"/>
+        <activity android:name="com.jet.particle.copy.CopyExplosionActivity"/>
     </application>
 
 </manifest>

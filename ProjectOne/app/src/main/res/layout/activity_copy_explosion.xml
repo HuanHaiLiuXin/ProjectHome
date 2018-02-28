@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1.0"
+                android:padding="8dp"
+                android:background="@color/colorAccent"
+                android:src="@mipmap/qq"
+                />
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1.0"
+                android:padding="8dp"
+                android:background="@color/colorPrimary"
+                android:src="@mipmap/qq_music"
+                />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"
+            android:src="@mipmap/img1"
+            android:scaleType="fitXY"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:text="秋刀鱼的滋味 猫跟你都想了解 而你的脸颊像田里收获的番茄"
+            />
+    </LinearLayout>
+</ScrollView>

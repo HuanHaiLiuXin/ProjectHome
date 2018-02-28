@@ -2,6 +2,7 @@ package com.jet.particle;
 
 import android.view.View;
 
+import com.jet.particle.copy.CopyExplosionActivity;
 import com.jet.project1.BaseActivity;
 import com.jet.project1.R;
 
@@ -25,5 +26,9 @@ public class ParticleActivity extends BaseActivity {
 
     public void goAZExplosion(View view) {
         jump(AZExplosionActivity.class);
+    }
+
+    public void goCopyParticle(View view) {
+        jump(CopyExplosionActivity.class);
     }
 }
