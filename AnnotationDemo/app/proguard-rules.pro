@@ -118,7 +118,7 @@
     @android.support.annotation.Keep <init>(...);
 }
 #4.终极方案——保留点击事件的注解和被点击事件注解的方法
-#-keep class com.huanhailiuxin.customannotation.annotations.BindView
+#-keep class com.huanhailiuxin..customannotationannotations.BindView
 #-keepclassmembers class * {
 #    @com.huanhailiuxin.customannotation.annotations.BindView *;
 #}
