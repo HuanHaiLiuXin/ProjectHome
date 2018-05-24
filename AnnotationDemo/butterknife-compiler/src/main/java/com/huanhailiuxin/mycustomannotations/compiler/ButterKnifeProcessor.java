@@ -70,7 +70,9 @@ public class ButterKnifeProcessor extends AbstractProcessor{
             String activityClassNameStr = enclosingElement.getSimpleName().toString();
             ClassName activityClassName = ClassName.bestGuess(activityClassNameStr);
             ClassName unBinderClassName = ClassName.get("com.fastaoe.butterknife","Unbinder");
+            ClassName keepClass = ClassName.get("android.support.annotation", "Keep");
             TypeSpec.Builder classBuilder = TypeSpec.classBuilder(activityClassNameStr + "_ViewBinding")
+                    .addAnnotation(keepClass)
                     .addModifiers(Modifier.PUBLIC,Modifier.FINAL)
                     .addSuperinterface(unBinderClassName)
                     .addField(activityClassName,"target",Modifier.PRIVATE);
