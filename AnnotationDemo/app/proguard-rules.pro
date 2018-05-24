@@ -105,7 +105,6 @@
 #3.使用系统提供的
 #手动启用support keep注解
 #http://tools.android.com/tech-docs/support-annotations
-
 -keep class android.support.annotation.Keep
 -keep @android.support.annotation.Keep class * {*;}
 -keepclasseswithmembers class * {
