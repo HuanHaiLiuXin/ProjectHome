@@ -1,6 +1,11 @@
 package com.jet.project1;
 
 import android.app.Application;
+import android.content.Intent;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 

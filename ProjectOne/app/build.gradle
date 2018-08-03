@@ -28,4 +28,6 @@ dependencies {
     compile 'cat.ereza:customactivityoncrash:2.2.0'
     compile 'com.android.support:recyclerview-v7:27.0.1'
     compile 'com.android.support:animated-vector-drawable:27.0.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 }

@@ -69,4 +69,8 @@ public class MainActivity extends AppCompatActivity {
     public void goParticle(View view) {
         jump(ParticleActivity.class);
     }
+
+    public void goTest(View view) {
+        jump(TestActivity.class);
+    }
 }

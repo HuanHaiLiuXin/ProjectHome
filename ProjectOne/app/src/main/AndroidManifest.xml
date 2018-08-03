@@ -3,25 +3,28 @@
     package="com.jet.project1">
 
     <application
-        android:name="com.jet.project1.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.jet.project1.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jet.project1.ViewPagerTransformerActivity" />
-        <activity android:name="com.jet.project1.ViewPagerActivity" />
-        <activity android:name="com.jet.project1.ViewPagerAdapterActivity" />
         <activity
-            android:name="com.jet.project1.CustomErrorActivity"
+            android:name=".ViewPagerTransformerActivity"/>
+        <activity android:name=".ViewPagerActivity" />
+        <activity
+            android:name=".ViewPagerAdapterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".CustomErrorActivity"
             android:label="@string/error_title"
             android:process=":error_activity">
 
@@ -30,31 +33,31 @@
             <!-- <action android:name="cat.ereza.customactivityoncrash.ERROR" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.jet.measurespec.MeasureSpecActivity"/>
-        <activity android:name="com.jet.measurespec.MeasureSpec1Activity"/>
-        <activity android:name="com.jet.measurespec.MeasureSpec2Activity"/>
-        <activity android:name="com.jet.measurespec.MeasureSpec3Activity"/>
-        <activity android:name="com.jet.scroller.ScrollerActivity"/>
-        <activity android:name="com.jet.scroller.SC1Activity"/>
-        <activity android:name="com.jet.scroller.ScrollerViewPagerActivity"/>
-        <activity android:name="com.jet.cameraandmatrix.CameraMatrixActivity"/>
-        <activity android:name="com.jet.cameraandmatrix.CameraTestViewActivity"/>
-        <activity android:name="com.jet.cameraandmatrix.Rotate3dAnimationActivity"/>
-        <activity android:name="com.jet.cameraandmatrix.Custom3DViewActivity"/>
-        <activity android:name="com.jet.cameraandmatrix.CopyCustom3DViewActivity"/>
-        <activity android:name="com.jet.project1.ViewPagerBackgroundActivity" />
-        <activity android:name="com.jet.project1.LoopViewPagerActivity" />
-        <activity android:name="com.jet.project1.VerticalViewPagerOriActivity" />
+        <activity android:name="com.jet.measurespec.MeasureSpecActivity" />
+        <activity android:name="com.jet.measurespec.MeasureSpec1Activity" />
+        <activity android:name="com.jet.measurespec.MeasureSpec2Activity" />
+        <activity android:name="com.jet.measurespec.MeasureSpec3Activity" />
+        <activity android:name="com.jet.scroller.ScrollerActivity" />
+        <activity android:name="com.jet.scroller.SC1Activity" />
+        <activity android:name="com.jet.scroller.ScrollerViewPagerActivity" />
+        <activity android:name="com.jet.cameraandmatrix.CameraMatrixActivity" />
+        <activity android:name="com.jet.cameraandmatrix.CameraTestViewActivity" />
+        <activity android:name="com.jet.cameraandmatrix.Rotate3dAnimationActivity" />
+        <activity android:name="com.jet.cameraandmatrix.Custom3DViewActivity" />
+        <activity android:name="com.jet.cameraandmatrix.CopyCustom3DViewActivity" />
+        <activity android:name=".ViewPagerBackgroundActivity" />
+        <activity android:name=".LoopViewPagerActivity" />
+        <activity android:name=".VerticalViewPagerOriActivity" />
         <activity android:name="com.tmall.ultraviewpager.sample.UPVDemoActivity" />
         <activity android:name="com.tmall.ultraviewpager.sample.PagerActivity" />
-        <activity android:name="com.jet.project1.CoolVP1Activity" />
-        <activity android:name="com.jet.project1.CoolVP2Activity" />
-        <activity android:name="com.jet.project1.CoolVP3Activity" />
-        <activity android:name="com.jet.project1.CoolVP4Activity" />
-        <activity android:name="com.jet.project1.VpClipChildrenActivity" />
-        <activity android:name="com.jet.project1.CoolViewPagerActivity" />
-        <activity android:name="com.jet.project1.VPMultiPageActivity" />
-        <activity android:name="com.jet.project1.FragmentRotateTransformerActivity"></activity>
+        <activity android:name=".CoolVP1Activity" />
+        <activity android:name=".CoolVP2Activity" />
+        <activity android:name=".CoolVP3Activity" />
+        <activity android:name=".CoolVP4Activity" />
+        <activity android:name=".VpClipChildrenActivity" />
+        <activity android:name=".CoolViewPagerActivity" />
+        <activity android:name=".VPMultiPageActivity" />
+        <activity android:name=".FragmentRotateTransformerActivity" />
         <activity android:name="com.jet.bitmap.BitmapActivity" />
         <activity android:name="com.jet.bitmap.BitmapSetPixelsActivity" />
         <activity android:name="com.jet.customanimation.CustomAnimationActivity" />
@@ -63,12 +66,13 @@
         <activity android:name="com.mrzk.flipcards.MainActivity" />
         <activity android:name="com.open.turnpage.MainActivity" />
         <activity android:name="com.open.turnpage.TuruPageActivity" />
-        <activity android:name="com.jet.res.ResActivity"/>
-        <activity android:name="com.jet.canvas.CanvasActivity"/>
-        <activity android:name="com.jet.canvas.CanvasSetBitmapActivity"/>
-        <activity android:name="com.jet.particle.ParticleActivity"/>
-        <activity android:name="com.jet.particle.AZExplosionActivity"/>
-        <activity android:name="com.jet.particle.copy.CopyExplosionActivity"/>
+        <activity android:name="com.jet.res.ResActivity" />
+        <activity android:name="com.jet.canvas.CanvasActivity" />
+        <activity android:name="com.jet.canvas.CanvasSetBitmapActivity" />
+        <activity android:name="com.jet.particle.ParticleActivity" />
+        <activity android:name="com.jet.particle.AZExplosionActivity" />
+        <activity android:name="com.jet.particle.copy.CopyExplosionActivity" />
+        <activity android:name=".TestActivity" android:configChanges="keyboardHidden|orientation|screenSize"></activity>
     </application>
 
 </manifest>
